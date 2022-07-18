@@ -16,13 +16,20 @@ namespace FINAL_MVC.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public Context(DbContextOptions<Context> optionsBuilder) : base(optionsBuilder) { }
         public Context() { }
         DateTime now = DateTime.Now;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseSqlServer(FINAL_MVC.Properties.Resources.connectionString);
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("MyContext");
+            optionsBuilder.UseSqlServer(connectionString);
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
