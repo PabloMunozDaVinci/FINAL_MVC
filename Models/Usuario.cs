@@ -14,6 +14,7 @@ namespace FINAL_MVC.Models
         public string Password { get; set; }
         public bool EsAdmin { get; set; }
         public bool Bloqueado { get; set; }
+        public int Intentos { get; set; }
         public List <Post> MisPosts { get; set; } = new List<Post>();
         public List<Comentario> MisComentarios { get; set; } = new List<Comentario>();
         public List<Reaccion> MisReacciones { get; set; } = new List<Reaccion>();
@@ -24,17 +25,19 @@ namespace FINAL_MVC.Models
         public Usuario() { }
 
         //Constructor logico para registrar un usuario
-        public Usuario(string Nombre, string Apellido, string Mail, string Password)
+        public Usuario(string Nombre, string Apellido, string Mail, string Password, int Intentos)
         {            
             this.Nombre = Nombre;
             this.Apellido = Apellido;
             this.Mail = Mail;
             this.Password = Password;
             Bloqueado = false;
-            EsAdmin = false;            
+            EsAdmin = false;
+            this.Intentos = Intentos;
             MisPosts = new List<Post>();
             MisComentarios = new List<Comentario>();
             MisReacciones = new List<Reaccion>();
+            
 
         }
 

@@ -56,7 +56,7 @@ namespace FINAL_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nombre,Apellido,Mail,Password,EsAdmin,Bloqueado")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("ID,Nombre,Apellido,Mail,Password,EsAdmin,Bloqueado,Intentos")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
