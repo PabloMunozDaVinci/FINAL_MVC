@@ -10,43 +10,43 @@ using FINAL_MVC.Models;
 
 namespace FINAL_MVC.Controllers
 {
-    public class ComentariosController : Controller
+    public class ReaccionsController : Controller
     {
         private readonly Context _context;
 
-        public ComentariosController(Context context)
+        public ReaccionsController(Context context)
         {
             _context = context;
         }
 
-        // GET: Comentarios
+        // GET: Reaccions
         public async Task<IActionResult> Index()
         {
-            var context = _context.Comentarios.Include(c => c.Post).Include(c => c.Usuario);
+            var context = _context.Reacciones.Include(r => r.Post).Include(r => r.Usuario);
             return View(await context.ToListAsync());
         }
 
-        // GET: Comentarios/Details/5
+        // GET: Reaccions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Comentarios == null)
+            if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
             }
 
-            var comentario = await _context.Comentarios
-                .Include(c => c.Post)
-                .Include(c => c.Usuario)
+            var reaccion = await _context.Reacciones
+                .Include(r => r.Post)
+                .Include(r => r.Usuario)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (comentario == null)
+            if (reaccion == null)
             {
                 return NotFound();
             }
 
-            return View(comentario);
+            return View(reaccion);
         }
 
-        // GET: Comentarios/Create
+        // GET: Reaccions/Create
         public IActionResult Create()
         {
             ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID");
@@ -54,51 +54,50 @@ namespace FINAL_MVC.Controllers
             return View();
         }
 
-        // POST: Comentarios/Create
+        // POST: Reaccions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
+        public async Task<IActionResult> Create([Bind("ID,Tipo,PostID,UsuarioID")] Reaccion reaccion)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(comentario);
+                _context.Add(reaccion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", comentario.PostID);
-            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", comentario.UsuarioID);
-
-            return View(comentario);
+            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", reaccion.PostID);
+            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", reaccion.UsuarioID);
+            return View(reaccion);
         }
 
-        // GET: Comentarios/Edit/5
+        // GET: Reaccions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Comentarios == null)
+            if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
             }
 
-            var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario == null)
+            var reaccion = await _context.Reacciones.FindAsync(id);
+            if (reaccion == null)
             {
                 return NotFound();
             }
-            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", comentario.PostID);
-            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", comentario.UsuarioID);
-            return View(comentario);
+            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", reaccion.PostID);
+            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", reaccion.UsuarioID);
+            return View(reaccion);
         }
 
-        // POST: Comentarios/Edit/5
+        // POST: Reaccions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Tipo,PostID,UsuarioID")] Reaccion reaccion)
         {
-            if (id != comentario.ID)
+            if (id != reaccion.ID)
             {
                 return NotFound();
             }
@@ -107,12 +106,12 @@ namespace FINAL_MVC.Controllers
             {
                 try
                 {
-                    _context.Update(comentario);
+                    _context.Update(reaccion);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ComentarioExists(comentario.ID))
+                    if (!ReaccionExists(reaccion.ID))
                     {
                         return NotFound();
                     }
@@ -123,57 +122,53 @@ namespace FINAL_MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", comentario.PostID);
-            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", comentario.UsuarioID);
-            return View(comentario);
+            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", reaccion.PostID);
+            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", reaccion.UsuarioID);
+            return View(reaccion);
         }
 
-        // GET: Comentarios/Delete/5
+        // GET: Reaccions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Comentarios == null)
+            if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
             }
 
-            var comentario = await _context.Comentarios
-                .Include(c => c.Post)
-                .Include(c => c.Usuario)
+            var reaccion = await _context.Reacciones
+                .Include(r => r.Post)
+                .Include(r => r.Usuario)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (comentario == null)
+            if (reaccion == null)
             {
                 return NotFound();
             }
 
-            return View(comentario);
+            return View(reaccion);
         }
 
-        // POST: Comentarios/Delete/5
+        // POST: Reaccions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Comentarios == null)
+            if (_context.Reacciones == null)
             {
-                return Problem("Entity set 'Context.Comentarios'  is null.");
+                return Problem("Entity set 'Context.Reacciones'  is null.");
             }
-            var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario != null)
+            var reaccion = await _context.Reacciones.FindAsync(id);
+            if (reaccion != null)
             {
-                _context.Comentarios.Remove(comentario);
+                _context.Reacciones.Remove(reaccion);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ComentarioExists(int id)
+        private bool ReaccionExists(int id)
         {
-
-          return _context.Comentarios.Any(e => e.ID == id);
-
-            return (_context.Comentarios?.Any(e => e.ID == id)).GetValueOrDefault();
-
+            return (_context.Reacciones?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }
