@@ -9,9 +9,9 @@ namespace FINAL_MVC.Models
         public int ID { get; set; }
         public int PostID { get; set; }
         public int UsuarioID { get; set; }
-        public Post Post { get; set; } 
+        public Post? Post { get; set; } 
         public string Contenido { get; set; }
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
         public DateTime Fecha { get; set; }
 
         //Constructor vacio para EF

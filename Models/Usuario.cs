@@ -18,8 +18,8 @@ namespace FINAL_MVC.Models
         public List <Post> MisPosts { get; set; } = new List<Post>();
         public List<Comentario> MisComentarios { get; set; } = new List<Comentario>();
         public List<Reaccion> MisReacciones { get; set; } = new List<Reaccion>();
-        public virtual ICollection<UsuarioAmigo> MisAmigos { get; set; }
-        public virtual ICollection<UsuarioAmigo> AmigosMios { get; set; }
+        public virtual ICollection<UsuarioAmigo>? MisAmigos { get; set; }
+        public virtual ICollection<UsuarioAmigo>? AmigosMios { get; set; }
 
 
         public Usuario() { }
