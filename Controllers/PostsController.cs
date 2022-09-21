@@ -10,95 +10,90 @@ using FINAL_MVC.Models;
 
 namespace FINAL_MVC.Controllers
 {
-    public class ComentariosController : Controller
+    public class PostsController : Controller
     {
         private readonly Context _context;
 
-        public ComentariosController(Context context)
+        public PostsController(Context context)
         {
             _context = context;
         }
 
-        // GET: Comentarios
+        // GET: Posts
         public async Task<IActionResult> Index()
         {
-            var context = _context.Comentarios.Include(c => c.Post).Include(c => c.Usuario);
+            var context = _context.Posts.Include(p => p.Usuario);
             return View(await context.ToListAsync());
         }
 
-        // GET: Comentarios/Details/5
+        // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Comentarios == null)
+            if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
 
-            var comentario = await _context.Comentarios
-                .Include(c => c.Post)
-                .Include(c => c.Usuario)
+            var post = await _context.Posts
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (comentario == null)
+            if (post == null)
             {
                 return NotFound();
             }
 
-            return View(comentario);
+            return View(post);
         }
 
-        // GET: Comentarios/Create
+        // GET: Posts/Create
         public IActionResult Create()
         {
-            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID");
             ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID");
             return View();
         }
 
-        // POST: Comentarios/Create
+        // POST: Posts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
+        public async Task<IActionResult> Create([Bind("ID,UsuarioID,Contenido,Fecha")] Post post)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(comentario);
+                _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", comentario.PostID);
-            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", comentario.UsuarioID);
-
-            return View(comentario);
+            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", post.UsuarioID);
+            return View(post);
         }
 
-        // GET: Comentarios/Edit/5
+        // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Comentarios == null)
+            if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
 
-            var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario == null)
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
             {
                 return NotFound();
             }
-            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", comentario.PostID);
-            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", comentario.UsuarioID);
-            return View(comentario);
+            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", post.UsuarioID);
+            return View(post);
         }
 
-        // POST: Comentarios/Edit/5
+        // POST: Posts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,UsuarioID,Contenido,Fecha")] Post post)
         {
-            if (id != comentario.ID)
+            if (id != post.ID)
             {
                 return NotFound();
             }
@@ -107,12 +102,12 @@ namespace FINAL_MVC.Controllers
             {
                 try
                 {
-                    _context.Update(comentario);
+                    _context.Update(post);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ComentarioExists(comentario.ID))
+                    if (!PostExists(post.ID))
                     {
                         return NotFound();
                     }
@@ -123,57 +118,51 @@ namespace FINAL_MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID", comentario.PostID);
-            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", comentario.UsuarioID);
-            return View(comentario);
+            ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID", post.UsuarioID);
+            return View(post);
         }
 
-        // GET: Comentarios/Delete/5
+        // GET: Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Comentarios == null)
+            if (id == null || _context.Posts == null)
             {
                 return NotFound();
             }
 
-            var comentario = await _context.Comentarios
-                .Include(c => c.Post)
-                .Include(c => c.Usuario)
+            var post = await _context.Posts
+                .Include(p => p.Usuario)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (comentario == null)
+            if (post == null)
             {
                 return NotFound();
             }
 
-            return View(comentario);
+            return View(post);
         }
 
-        // POST: Comentarios/Delete/5
+        // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Comentarios == null)
+            if (_context.Posts == null)
             {
-                return Problem("Entity set 'Context.Comentarios'  is null.");
+                return Problem("Entity set 'Context.Posts'  is null.");
             }
-            var comentario = await _context.Comentarios.FindAsync(id);
-            if (comentario != null)
+            var post = await _context.Posts.FindAsync(id);
+            if (post != null)
             {
-                _context.Comentarios.Remove(comentario);
+                _context.Posts.Remove(post);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ComentarioExists(int id)
+        private bool PostExists(int id)
         {
-
-          return _context.Comentarios.Any(e => e.ID == id);
-
-            return (_context.Comentarios?.Any(e => e.ID == id)).GetValueOrDefault();
-
+            return (_context.Posts?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

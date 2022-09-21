@@ -16,13 +16,20 @@ namespace FINAL_MVC.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public Context(DbContextOptions<Context> optionsBuilder) : base(optionsBuilder) { }
         public Context() { }
         DateTime now = DateTime.Now;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-            optionsBuilder.UseSqlServer(FINAL_MVC.Properties.Resources.connectionString);
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("MyContext");
+            optionsBuilder.UseSqlServer(connectionString);
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -132,6 +139,7 @@ namespace FINAL_MVC.Data
                     usuario.Property(u => u.Password).HasColumnType("varchar(50)");
                     usuario.Property(u => u.EsAdmin).HasColumnType("bit");
                     usuario.Property(u => u.Bloqueado).HasColumnType("bit");
+                    usuario.Property(u => u.Intentos).HasColumnType("int");
                 });
 
             //Comentario
@@ -169,9 +177,9 @@ namespace FINAL_MVC.Data
 
             //AGREGO ALGUNOS DATOS DE PRUEBA
             modelBuilder.Entity<Usuario>().HasData(
-                new { ID = 1, Nombre = "administrador", Apellido = "adminApellido", Mail = "administrador@gmail.com", Password = "administrador", EsAdmin = true, Bloqueado = false },
-                new { ID = 2, Nombre = "usuario1", Apellido = "usuario1Apellido", Mail = "usuario1@gmail.com", Password = "usuario1", EsAdmin = false, Bloqueado = false },
-                new { ID = 3, Nombre = "usuario2", Apellido = "usuario2Apellido", Mail = "usuario2@gmail.com", Password = "usuario2", EsAdmin = false, Bloqueado = false });
+                new { ID = 1, Nombre = "administrador", Apellido = "adminApellido", Mail = "administrador@gmail.com", Password = "administrador", EsAdmin = true, Bloqueado = false, Intentos = 0 },
+                new { ID = 2, Nombre = "usuario1", Apellido = "usuario1Apellido", Mail = "usuario1@gmail.com", Password = "usuario1", EsAdmin = false, Bloqueado = false, Intentos = 0 },
+                new { ID = 3, Nombre = "usuario2", Apellido = "usuario2Apellido", Mail = "usuario2@gmail.com", Password = "usuario2", EsAdmin = false, Bloqueado = false, Intentos = 0 });
 
             modelBuilder.Entity<Post>().HasData(
                 new { ID = 1, UsuarioID = 2, Contenido = "111", Fecha = now },
