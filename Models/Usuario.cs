@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using FINAL_MVC.Models;
 
@@ -7,10 +8,20 @@ namespace FINAL_MVC.Models
 {
      public class Usuario
     {
-        public int ID { get; set;}
-        public string Nombre{ get; set; }
-        public string Apellido  { get; set; }
+        public int ID { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "El nombre debe tener 2 caracteres como mínimo")]
+        public string Nombre { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "El apellido debe tener 2 caracteres como mínimo")]
+        public string Apellido { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [StringLength(100, ErrorMessage = "El correo es inválido")]
         public string Mail { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [StringLength(500, MinimumLength = 8, ErrorMessage = "La contraseña debe tener 8 caracteres como mínimo")]
         public string Password { get; set; }
         public bool EsAdmin { get; set; }
         public bool Bloqueado { get; set; }
