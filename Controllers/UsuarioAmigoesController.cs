@@ -10,7 +10,7 @@ using FINAL_MVC.Models;
 
 namespace FINAL_MVC.Controllers
 {
-    public class UsuarioAmigoesController : Controller
+    /*public class UsuarioAmigoesController : Controller
     {
         private readonly Context _context;
 
@@ -170,5 +170,5 @@ namespace FINAL_MVC.Controllers
         {
             return (_context.UsuarioAmigo?.Any(e => e.ID_Usuario == id)).GetValueOrDefault();
         }
-    }
+    }*/
 }
