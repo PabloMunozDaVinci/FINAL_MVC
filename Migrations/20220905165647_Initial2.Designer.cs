@@ -4,6 +4,7 @@ using FINAL_MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FINAL_MVC.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220905165647_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -81,35 +83,35 @@ namespace FINAL_MVC.Migrations
                         {
                             ID = 1,
                             Contenido = "111",
-                            Fecha = new DateTime(2022, 9, 17, 20, 49, 32, 655, DateTimeKind.Local).AddTicks(2847),
+                            Fecha = new DateTime(2022, 9, 5, 13, 56, 46, 556, DateTimeKind.Local).AddTicks(8698),
                             UsuarioID = 2
                         },
                         new
                         {
                             ID = 2,
                             Contenido = "222",
-                            Fecha = new DateTime(2022, 9, 17, 20, 49, 32, 655, DateTimeKind.Local).AddTicks(2847),
+                            Fecha = new DateTime(2022, 9, 5, 13, 56, 46, 556, DateTimeKind.Local).AddTicks(8698),
                             UsuarioID = 3
                         },
                         new
                         {
                             ID = 3,
                             Contenido = "333",
-                            Fecha = new DateTime(2022, 9, 17, 20, 49, 32, 655, DateTimeKind.Local).AddTicks(2847),
+                            Fecha = new DateTime(2022, 9, 5, 13, 56, 46, 556, DateTimeKind.Local).AddTicks(8698),
                             UsuarioID = 2
                         },
                         new
                         {
                             ID = 4,
                             Contenido = "444",
-                            Fecha = new DateTime(2022, 9, 17, 20, 49, 32, 655, DateTimeKind.Local).AddTicks(2847),
+                            Fecha = new DateTime(2022, 9, 5, 13, 56, 46, 556, DateTimeKind.Local).AddTicks(8698),
                             UsuarioID = 3
                         },
                         new
                         {
                             ID = 5,
                             Contenido = "555",
-                            Fecha = new DateTime(2022, 9, 17, 20, 49, 32, 655, DateTimeKind.Local).AddTicks(2847),
+                            Fecha = new DateTime(2022, 9, 5, 13, 56, 46, 556, DateTimeKind.Local).AddTicks(8698),
                             UsuarioID = 2
                         });
                 });
@@ -194,9 +196,6 @@ namespace FINAL_MVC.Migrations
                     b.Property<bool>("EsAdmin")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Intentos")
-                        .HasColumnType("int");
-
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
@@ -220,7 +219,6 @@ namespace FINAL_MVC.Migrations
                             Apellido = "adminApellido",
                             Bloqueado = false,
                             EsAdmin = true,
-                            Intentos = 0,
                             Mail = "administrador@gmail.com",
                             Nombre = "administrador",
                             Password = "administrador"
@@ -231,7 +229,6 @@ namespace FINAL_MVC.Migrations
                             Apellido = "usuario1Apellido",
                             Bloqueado = false,
                             EsAdmin = false,
-                            Intentos = 0,
                             Mail = "usuario1@gmail.com",
                             Nombre = "usuario1",
                             Password = "usuario1"
@@ -242,7 +239,6 @@ namespace FINAL_MVC.Migrations
                             Apellido = "usuario2Apellido",
                             Bloqueado = false,
                             EsAdmin = false,
-                            Intentos = 0,
                             Mail = "usuario2@gmail.com",
                             Nombre = "usuario2",
                             Password = "usuario2"

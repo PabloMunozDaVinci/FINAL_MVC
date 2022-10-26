@@ -6,104 +6,104 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FINAL_MVC.Data;
-using FINAL_MVC.Models;
 
-namespace FINAL_MVC.Controllers
+namespace FINAL_MVC.Models
 {
-    public class UsuariosController : Controller
+    public class TagsController : Controller
     {
         private readonly Context _context;
 
-        public UsuariosController(Context context)
+        public TagsController(Context context)
         {
             _context = context;
         }
 
-        // GET: Usuarios
+        // GET: Tags
         public async Task<IActionResult> Index()
         {
-            return _context.Usuarios != null ?
-                        View(await _context.Usuarios.ToListAsync()) :
-                        Problem("Entity set 'Context.Usuarios'  is null.");
+              return _context.Tags != null ? 
+                          View(await _context.Tags.ToListAsync()) :
+                          Problem("Entity set 'Context.Tags'  is null.");
         }
 
-        // GET: Usuarios/Details/5
+        // GET: Tags/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Usuarios == null)
+            if (id == null || _context.Tags == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
+            var tag = await _context.Tags
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (usuario == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(usuario);
+            return View(tag);
         }
 
-        // GET: Usuarios/Create
+        // GET: Tags/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Usuarios/Create
+        // POST: Tags/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nombre,Apellido,Mail,Password,EsAdmin,Bloqueado,Intentos")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("ID,Palabra")] Tag tag)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(usuario);
+                _context.Add(tag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            return View(tag);
         }
 
-        // GET: Trae los datos para la vista de editar de un usuario en especifico
+        // GET: Tags/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Usuarios == null)
+            if (id == null || _context.Tags == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag == null)
             {
                 return NotFound();
             }
-            return View(usuario);
+            return View(tag);
         }
 
-        // POST: Usuarios/Edit/5
+        // POST: Tags/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Nombre,Apellido,Mail,Password,EsAdmin,Bloqueado")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Palabra")] Tag tag)
         {
-            if (id != usuario.ID)
+            if (id != tag.ID)
             {
                 return NotFound();
             }
 
-            if (id != usuario.ID)
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(usuario);
+                    _context.Update(tag);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.ID))
+                    if (!TagExists(tag.ID))
                     {
                         return NotFound();
                     }
@@ -114,49 +114,49 @@ namespace FINAL_MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+            return View(tag);
         }
 
-        // GET: Usuarios/Delete/5
+        // GET: Tags/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Usuarios == null)
+            if (id == null || _context.Tags == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
+            var tag = await _context.Tags
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (usuario == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(usuario);
+            return View(tag);
         }
 
-        // POST: Usuarios/Delete/5
+        // POST: Tags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Usuarios == null)
+            if (_context.Tags == null)
             {
-                return Problem("Entity set 'Context.Usuarios'  is null.");
+                return Problem("Entity set 'Context.Tags'  is null.");
             }
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
+            var tag = await _context.Tags.FindAsync(id);
+            if (tag != null)
             {
-                _context.Usuarios.Remove(usuario);
+                _context.Tags.Remove(tag);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsuarioExists(int id)
+        private bool TagExists(int id)
         {
-            return (_context.Usuarios?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Tags?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }
