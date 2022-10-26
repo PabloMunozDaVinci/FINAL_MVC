@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Linq;
 using FINAL_MVC.Models;
 
 namespace FINAL_MVC.Models
 {
      public class Usuario
     {
+
         public int ID { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "El nombre debe tener 2 caracteres como mínimo")]
@@ -36,8 +38,12 @@ namespace FINAL_MVC.Models
         public Usuario() { }
 
         //Constructor logico para registrar un usuario
+
         public Usuario(string Nombre, string Apellido, string Mail, string Password, int Intentos)
         {            
+
+        public Usuario(string Nombre, string Apellido, string Mail, string Password)
+        {
             this.Nombre = Nombre;
             this.Apellido = Apellido;
             this.Mail = Mail;

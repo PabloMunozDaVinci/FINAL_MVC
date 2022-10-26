@@ -67,7 +67,7 @@ namespace FINAL_MVC.Controllers
             return View(usuario);
         }
 
-        // GET: Usuarios/Edit/5
+        // GET: Trae los datos para la vista de editar de un usuario en especifico
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Usuarios == null)
@@ -85,7 +85,6 @@ namespace FINAL_MVC.Controllers
 
         // POST: Usuarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Nombre,Apellido,Mail,Password,EsAdmin,Bloqueado")] Usuario usuario)
@@ -95,7 +94,7 @@ namespace FINAL_MVC.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (id != usuario.ID)
             {
                 try
                 {
