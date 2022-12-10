@@ -9,14 +9,13 @@ namespace FINAL_MVC.Models
 {
      public class Usuario
     {
-
-        public int ID { get; set; }
+        public int ID { get; set;}
         [Required]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "El nombre debe tener 2 caracteres como mínimo")]
-        public string Nombre { get; set; }
+        public string Nombre{ get; set; }
         [Required]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "El apellido debe tener 2 caracteres como mínimo")]
-        public string Apellido { get; set; }
+        public string Apellido  { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
         [StringLength(100, ErrorMessage = "El correo es inválido")]
@@ -38,12 +37,8 @@ namespace FINAL_MVC.Models
         public Usuario() { }
 
         //Constructor logico para registrar un usuario
-
         public Usuario(string Nombre, string Apellido, string Mail, string Password, int Intentos)
         {            
-
-        public Usuario(string Nombre, string Apellido, string Mail, string Password)
-        {
             this.Nombre = Nombre;
             this.Apellido = Apellido;
             this.Mail = Mail;
