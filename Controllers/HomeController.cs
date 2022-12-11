@@ -58,9 +58,10 @@ namespace FINAL_MVC.Controllers
 
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public IActionResult Login(String Email, string password)
+            public IActionResult Login(string Mail, string password)
             {
-                Usuario usuario = _context.Usuarios.AsQueryable().FirstOrDefault(m => m.Mail.Equals(Email));
+                Usuario usuario = _context.Usuarios.Where(U => U.Mail == Mail).FirstOrDefault();
+
 
                 if (usuario != null)
                 { //msg usuario valio
@@ -79,13 +80,13 @@ namespace FINAL_MVC.Controllers
                             {
                                 //usuario es admin
                                 HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
-                                return RedirectToAction("Inicio", "RedSocial");
+                                return RedirectToAction("InicioUsuario", "Posts");
                             }
                             else
                             {
                                 //usuario es cliente
                                 HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
-                                return RedirectToAction("Inicio", "RedSocial");
+                                return RedirectToAction("InicioUsuario", "Posts");
                             }
                         }
                         else
