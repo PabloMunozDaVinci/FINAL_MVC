@@ -26,7 +26,7 @@
             <div class="card-body py-5 px-md-5">
                  
                 <!--Login -->
-              <form asp-action="Login" >
+              <form asp-controller="Home" asp-action="Login" >
                
                
 
@@ -46,7 +46,7 @@
                 <!-- Submit button -->
                  <div class="text-center">
                
-                <input type="submit" value="login" class="btn btn-primary" />
+                <input type="submit" asp-controller="Home" asp-action="Login" value="login" class="btn btn-primary" />
 
                 </div>
 
