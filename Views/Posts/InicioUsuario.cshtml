@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 
-@model FINAL_MVC.Models.Post
-
+@model IEnumerable<FINAL_MVC.Models.Post>
 
 @{
     ViewData["Title"] = "RedSocial";
@@ -54,34 +53,42 @@
                 </div>
 
                 <!-- Ver Posts -->
-                <div>
-                    <h4>Post</h4>
-                    <hr />
-                    <dl class="row">
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.Usuario)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.Usuario.ID)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.Contenido)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.Contenido)
-                        </dd>
-                        <dt class = "col-sm-2">
-                            @Html.DisplayNameFor(model => model.Fecha)
-                        </dt>
-                        <dd class = "col-sm-10">
-                            @Html.DisplayFor(model => model.Fecha)
-                        </dd>
-                    </dl>
-                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Usuario)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Contenido)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Fecha)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                @foreach (var item in Model) {
+                    @if (true)
+                    {
+                        
+                    }
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Usuario.ID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Contenido)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
 
-
-
-            
               </form>
             </div>
           </div>
