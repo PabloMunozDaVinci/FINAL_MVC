@@ -80,7 +80,7 @@ namespace FINAL_MVC.Controllers
                             {
                                 //usuario es admin
                                 HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
-                                return RedirectToAction("InicioUsuario", "Posts");
+                                return RedirectToAction("Index", "Admin");
                             }
                             else
                             {
