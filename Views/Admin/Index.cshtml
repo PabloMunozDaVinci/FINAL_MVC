@@ -7,10 +7,12 @@
 
 <h1>Panel de administrador</h1>
 
+
+<input type="button" value="Some text" onclick="@("window.location.href='" + @Url.Action("Edit", "Posts") + "'");" />
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<input type="button" value="Some text" onclick="@("window.location.href='" + @Url.Action("Edit", "Posts") + "'");" />
 <table class="table">
     <thead>
         <tr>
@@ -38,7 +40,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    @*<tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -69,7 +71,6 @@
             </td>
         </tr>
 }
-    </tbody>
+    </tbody>*@
 </table>
-
 
