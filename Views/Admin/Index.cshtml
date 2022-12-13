@@ -1,0 +1,32 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Panel de administrador</h1>
+
+
+
+  Accesos
+<table class="table">
+    <thead>
+        <tr>
+    
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+       
+            <td>
+           <input type="button" class="btn btn-primary" value="Ver panel de usuarios" onclick="@("window.location.href='" + @Url.Action("Index", "Usuarios") + "'");" />
+           <input type="button" class="btn btn-secondary"value="Ver panel de Posts" onclick="@("window.location.href='" + @Url.Action("Index", "Posts") + "'");" />
+           <input type="button" class="btn btn-success" value="Ver panel de Comentarios" onclick="@("window.location.href='" + @Url.Action("Index", "Comentarios") + "'");" />
+           <input type="button" class="btn btn-danger" value="Ver panel de Reacciones" onclick="@("window.location.href='" + @Url.Action("Index", "Reacciones") + "'");" />
+           <input type="button" class="btn btn-info" value="Ver panel de Tags" onclick="@("window.location.href='" + @Url.Action("Index", "Tags") + "'");" />
+            </td>
+        </tr>
+
+    </tbody>
+</table>
