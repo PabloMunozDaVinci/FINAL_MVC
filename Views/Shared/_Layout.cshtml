@@ -29,12 +29,11 @@
                     </ul>
                 </div>
             </div>
-            @if{
-                ViewContext.HttpContext.Session.GetString("Tipo", "1");
+        
 
             <input asp-action="Logoff" asp-controller="Admin" type="submit" value="Cerrar Sesion " class="btn btn-light" />
         
-        }
+       
         </nav>
     </header>
     <div class="container">

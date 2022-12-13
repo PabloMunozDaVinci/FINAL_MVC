@@ -173,7 +173,7 @@ namespace FINAL_MVC.Data
                 });
 
             //Ignoro, no agrego UsuarioManager a la base de datos , ni DB_Management
-            modelBuilder.Ignore<RedSocial>();
+     
 
             //AGREGO ALGUNOS DATOS DE PRUEBA
             modelBuilder.Entity<Usuario>().HasData(
