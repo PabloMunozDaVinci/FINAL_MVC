@@ -25,11 +25,7 @@ namespace FINAL_MVC.Controllers
             var context = _context.Posts.Include(p => p.Usuario);
             return View(await context.ToListAsync());
         }
-        public async Task<IActionResult> inicioUsuario()
-        {
-           
-            return View();
-        }
+       
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)

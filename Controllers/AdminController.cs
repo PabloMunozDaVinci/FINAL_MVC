@@ -59,6 +59,9 @@ namespace FINAL_MVC.Controllers
 
             if (usuario != null)
             { //msg usuario valio
+
+                ViewData["UsuarioExiste"] = 1;
+
                 if (!usuario.Bloqueado)
                 {
                     //preguntar si el usuario no está bloqueado
@@ -78,7 +81,7 @@ namespace FINAL_MVC.Controllers
 
 
 
-                           ;
+                            ;
 
                             HttpContext.Session.SetInt32("Tipo", Convert.ToInt32(UserType));
                             return RedirectToAction("Index", "Admin");
@@ -123,10 +126,11 @@ namespace FINAL_MVC.Controllers
 
                 ViewBag.Error = "Su usuario y/o contraseña es incorrecta";
 
-                return View();
+                return RedirectToAction("Index", "Home");
 
             }
         }
+
 
         [HttpPost]
         public IActionResult Logoff()

@@ -29,11 +29,12 @@
                     </ul>
                 </div>
             </div>
-        
-
+            @if((Convert.ToInt32(@ViewData["UsuarioExiste"])) ==1)
+              
+       {
             <input asp-action="Logoff" asp-controller="Admin" type="submit" value="Cerrar Sesion " class="btn btn-light" />
-        
-       
+          }
+      
         </nav>
     </header>
     <div class="container">
