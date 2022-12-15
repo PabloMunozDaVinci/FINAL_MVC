@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,10 +25,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                             
                         </li>
                     </ul>
                 </div>
+               
             </div>
+             @if (ViewContext.HttpContext.Session.GetString("UsuarioLogueado") != null || (ViewContext.HttpContext.Session.GetString("UsuarioLogueadoAdmin") != null ) ) {
+                
+             <input type="button"  class="btn btn-primary" value="Ver panel de usuarios"  />
+
+            <input onclick="@("window.location.href='" + @Url.Action("Logoff", "Admin") + "'");" type="button" value="Cerrar Sesion " class="btn btn-light" />
+          }
+      
         </nav>
     </header>
     <div class="container">

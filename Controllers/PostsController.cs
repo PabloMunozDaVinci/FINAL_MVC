@@ -25,6 +25,7 @@ namespace FINAL_MVC.Controllers
             var context = _context.Posts.Include(p => p.Usuario);
             return View(await context.ToListAsync());
         }
+       
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -163,6 +164,11 @@ namespace FINAL_MVC.Controllers
         private bool PostExists(int id)
         {
             return (_context.Posts?.Any(e => e.ID == id)).GetValueOrDefault();
+        }
+
+        public IActionResult InicioUsuario()
+        {
+            return View();
         }
     }
 }

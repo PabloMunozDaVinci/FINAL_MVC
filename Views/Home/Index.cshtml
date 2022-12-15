@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@model FINAL_MVC.Models.Usuario
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -10,7 +13,7 @@
       <div class="row gx-lg-5 align-items-center">
         <div class="col-lg-6 mb-5 mb-lg-0">
           <h1 class="my-5 display-3 fw-bold ls-tight">
-            The best offer <br />
+            Red Social <br />
             <span class="text-primary">for your business</span>
           </h1>
           <p style="color: hsl(217, 10%, 50.8%)">
@@ -24,32 +27,49 @@
         <div class="col-lg-6 mb-5 mb-lg-0">
           <div class="card">
             <div class="card-body py-5 px-md-5">
-              <form>
-                <!-- 2 column grid layout with text inputs for the first and last names -->
-               
+                 
+                <!--Login -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <form asp-action="Login">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Mail" class="control-label"></label>
+                                <input asp-for="Mail" class="form-control" />
+                                <span asp-validation-for="Mail" class="text-danger"></span> 
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password" class="control-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
 
-                <!-- Email input -->
-                <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3" class="form-control" />
-                  <label class="form-label" for="form3Example3">Email address</label>
+                            @if (ViewBag.Error != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                        @ViewBag.Error
+                       
+                                </div>
+                            }
+                                <div class="form-group">
+                                    <input asp-action="Login" asp-controller="Admin" type="submit" value="login" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
-                <!-- Password input -->
-                <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4" class="form-control" />
-                  <label class="form-label" for="form3Example4">Password</label>
+                <!-- Register button -->
+                <div class="text-center">
+                    <a class="btn btn-block btn-outline-info mr-1" type="button" asp-area="" asp-controller="Registro" asp-action="Index">Registrarse</a>
                 </div>
 
-               
-                <!-- Submit button -->
-                 <div class="text-center">
-                <button type="submit" class="btn btn-primary btn-block mb-4" > 
-                  Sign up
-                </button>
+                <!-- Test inicio button -->
+                <div class="text-center">
+                    <a class="btn btn-block btn-outline-info mr-1" type="button" asp-area="" asp-controller="Posts" asp-action="InicioUsuario">RedSocial</a>
                 </div>
 
             
-              </form>
+
             </div>
           </div>
         </div>
