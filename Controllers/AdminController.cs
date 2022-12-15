@@ -60,7 +60,7 @@ namespace FINAL_MVC.Controllers
             if (usuario != null)
             { //msg usuario valio
 
-                ViewData["UsuarioExiste"] = 1;
+                HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
 
                 if (!usuario.Bloqueado)
                 {
@@ -77,19 +77,20 @@ namespace FINAL_MVC.Controllers
                         {
                             //usuario es admin
                             HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
-                            var UserType = usuario.EsAdmin;
+                            HttpContext.Session.SetString("UsuarioLogueadoAdmin", usuario.ID.ToString());
 
 
 
-                            ;
 
-                            HttpContext.Session.SetInt32("Tipo", Convert.ToInt32(UserType));
+
+
                             return RedirectToAction("Index", "Admin");
                         }
                         else
                         {
                             //usuario es cliente
                             HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
+                            HttpContext.Session.SetString("UsuarioLogueado", usuario.ID.ToString());
                             return RedirectToAction("inicioUsuario", "Posts");
                         }
                     }
