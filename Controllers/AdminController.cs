@@ -133,7 +133,7 @@ namespace FINAL_MVC.Controllers
         }
 
 
-        [HttpPost]
+       // [HttpPost]
         public IActionResult Logoff()
         {
 

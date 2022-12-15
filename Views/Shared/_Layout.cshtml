@@ -33,8 +33,9 @@
             </div>
              @if (ViewContext.HttpContext.Session.GetString("UsuarioLogueado") != null || (ViewContext.HttpContext.Session.GetString("UsuarioLogueadoAdmin") != null ) ) {
                 
-      
-            <input asp-action="Logoff" asp-controller="Admin" type="submit" value="Cerrar Sesion " class="btn btn-light" />
+             <input type="button"  class="btn btn-primary" value="Ver panel de usuarios"  />
+
+            <input onclick="@("window.location.href='" + @Url.Action("Logoff", "Admin") + "'");" type="button" value="Cerrar Sesion " class="btn btn-light" />
           }
       
         </nav>
