@@ -4,6 +4,7 @@ using FINAL_MVC.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace FINAL_MVC.Controllers
 {
@@ -33,6 +34,7 @@ namespace FINAL_MVC.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(usuario);
+                usuario.Password = BCryptNet.HashPassword(usuario.Password);
                 await _context.SaveChangesAsync();
                 _context.Usuarios.Update(usuario);
                 _context.SaveChanges();

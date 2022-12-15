@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace FINAL_MVC.Controllers
 {
@@ -65,7 +66,9 @@ namespace FINAL_MVC.Controllers
                 if (!usuario.Bloqueado)
                 {
                     //preguntar si el usuario no está bloqueado
-                    if (usuario.Password == password)
+
+                    if //(usuario.Password == password)     
+                           ( BCryptNet.Verify(password, usuario.Password))
                     {
                         if (usuario.Intentos != 0)
                         {
