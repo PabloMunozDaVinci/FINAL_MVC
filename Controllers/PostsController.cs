@@ -166,9 +166,5 @@ namespace FINAL_MVC.Controllers
             return (_context.Posts?.Any(e => e.ID == id)).GetValueOrDefault();
         }
 
-        public IActionResult InicioUsuario()
-        {
-            return View();
-        }
     }
 }

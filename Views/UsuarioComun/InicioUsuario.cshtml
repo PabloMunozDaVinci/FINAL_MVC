@@ -1,7 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
-
 @model FINAL_MVC.Models.Post
-
 
 @{
     ViewData["Title"] = "RedSocial";
@@ -25,7 +23,7 @@
             <div class="card-body py-5 px-md-5">
               <form>
                 <!-- 2 column grid layout with text inputs for the first and last names -->
-               
+                <input type="button" class="btn btn-primary" value="Ver panel de usuarios" onclick="@("window.location.href='" + @Url.Action("Perfil", "Usuarios") + "'");" />
 
                <!-- Postear -->
                 <div class="row">
