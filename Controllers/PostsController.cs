@@ -22,6 +22,10 @@ namespace FINAL_MVC.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
             var context = _context.Posts.Include(p => p.Usuario);
             return View(await context.ToListAsync());
         }
@@ -30,6 +34,10 @@ namespace FINAL_MVC.Controllers
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
             if (id == null || _context.Posts == null)
             {
                 return NotFound();
@@ -49,6 +57,11 @@ namespace FINAL_MVC.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID");
             return View();
         }
@@ -60,6 +73,11 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,UsuarioID,Contenido,Fecha")] Post post)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(post);
@@ -73,6 +91,10 @@ namespace FINAL_MVC.Controllers
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
             if (id == null || _context.Posts == null)
             {
                 return NotFound();
@@ -94,6 +116,10 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,UsuarioID,Contenido,Fecha")] Post post)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
             if (id != post.ID)
             {
                 return NotFound();
@@ -126,6 +152,10 @@ namespace FINAL_MVC.Controllers
         // GET: Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
             if (id == null || _context.Posts == null)
             {
                 return NotFound();
@@ -147,6 +177,11 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             if (_context.Posts == null)
             {
                 return Problem("Entity set 'Context.Posts'  is null.");
@@ -163,6 +198,7 @@ namespace FINAL_MVC.Controllers
 
         private bool PostExists(int id)
         {
+
             return (_context.Posts?.Any(e => e.ID == id)).GetValueOrDefault();
         }
 

@@ -22,6 +22,11 @@ namespace FINAL_MVC.Controllers
         // GET: Reaccions
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             var context = _context.Reacciones.Include(r => r.Post).Include(r => r.Usuario);
             return View(await context.ToListAsync());
         }
@@ -29,6 +34,10 @@ namespace FINAL_MVC.Controllers
         // GET: Reaccions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
             if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
@@ -49,6 +58,11 @@ namespace FINAL_MVC.Controllers
         // GET: Reaccions/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID");
             ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID");
             return View();
@@ -61,6 +75,11 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Tipo,PostID,UsuarioID")] Reaccion reaccion)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(reaccion);
@@ -75,6 +94,11 @@ namespace FINAL_MVC.Controllers
         // GET: Reaccions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
@@ -97,6 +121,11 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Tipo,PostID,UsuarioID")] Reaccion reaccion)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+
+            };
             if (id != reaccion.ID)
             {
                 return NotFound();
@@ -130,6 +159,11 @@ namespace FINAL_MVC.Controllers
         // GET: Reaccions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
@@ -152,6 +186,11 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
+
             if (_context.Reacciones == null)
             {
                 return Problem("Entity set 'Context.Reacciones'  is null.");
