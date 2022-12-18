@@ -130,7 +130,7 @@ namespace FINAL_MVC.Controllers
 
                     ViewBag.Error = "El usuario se encuentra bloqueado";
 
-                    return View();
+                    return RedirectToAction("Index", "Home");
                 }
             }
             else

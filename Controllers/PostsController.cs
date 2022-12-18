@@ -22,10 +22,10 @@ namespace FINAL_MVC.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
-            {
-                return RedirectToAction("Index", "Home");
-            };
+         //   if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+           // {
+             //   return RedirectToAction("Index", "Home");
+            //};
             var context = _context.Posts.Include(p => p.Usuario);
             return View(await context.ToListAsync());
         }
