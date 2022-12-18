@@ -204,6 +204,10 @@ namespace FINAL_MVC.Controllers
 
         public IActionResult InicioUsuario()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            };
             return View();
         }
     }
