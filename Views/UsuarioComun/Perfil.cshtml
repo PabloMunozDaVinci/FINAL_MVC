@@ -21,9 +21,9 @@
                 </div>
             }
 
-            <form asp-action="Perfil">
+            <form asp-action="EditarPerfil">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@*                <input type="hidden" asp-for="dni" />
+@*              <input type="hidden" asp-for="dni" />
                 <input type="hidden" asp-for="id" />
                 <input type="hidden" asp-for="id_carro" />
                 <input type="hidden" asp-for="admin" />
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input @*asp-action="EditarPerfil" asp-controller="UsuarioComun"*@ type="submit" value="Save" asp class="btn btn-primary" />
                 </div>
             </form>
         </div>

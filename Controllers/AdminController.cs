@@ -41,7 +41,7 @@ namespace FINAL_MVC.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("InicioUsuario", "Posts");
+                    return RedirectToAction("InicioUsuario", "UsuarioComun");
                 }
             }
             else
