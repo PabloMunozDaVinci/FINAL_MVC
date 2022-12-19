@@ -50,7 +50,6 @@ namespace FINAL_MVC.Controllers
 
         public async Task<IActionResult> EditarPerfil(int id, Usuario usuario2)
         {
-
             if (HttpContext.Session.GetString("Usuario") != null)
             {
                 string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
