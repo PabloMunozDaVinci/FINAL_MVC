@@ -22,6 +22,10 @@ namespace FINAL_MVC.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return _context.Usuarios != null ?
                         View(await _context.Usuarios.ToListAsync()) :
                         Problem("Entity set 'Context.Usuarios'  is null.");
@@ -30,6 +34,10 @@ namespace FINAL_MVC.Controllers
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -48,6 +56,10 @@ namespace FINAL_MVC.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -58,6 +70,10 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nombre,Apellido,Mail,Password,EsAdmin,Bloqueado,Intentos")] Usuario usuario)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(usuario);
@@ -70,6 +86,10 @@ namespace FINAL_MVC.Controllers
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -90,6 +110,10 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Nombre,Apellido,Mail,Password,EsAdmin,Bloqueado")] Usuario usuario)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id != usuario.ID)
             {
                 return NotFound();
@@ -121,6 +145,10 @@ namespace FINAL_MVC.Controllers
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -141,6 +169,10 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (_context.Usuarios == null)
             {
                 return Problem("Entity set 'Context.Usuarios'  is null.");
