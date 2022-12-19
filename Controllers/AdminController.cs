@@ -60,6 +60,14 @@ namespace FINAL_MVC.Controllers
 
         }
 
+
+
+
+
+    
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(string Mail, string password)

@@ -19,6 +19,11 @@ namespace FINAL_MVC.Controllers
             _context = context;
         }
 
+
+     
+
+
+
         // GET: Posts
         public async Task<IActionResult> Index()
         {
