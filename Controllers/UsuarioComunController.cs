@@ -21,12 +21,19 @@ namespace FINAL_MVC.Controllers
             return View();
         }
 
-        public IActionResult InicioUsuario()
+        public async Task<IActionResult> InicioUsuario()
         {
-            return View();
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+
+            }
+            var context = _context.Posts.Include(p => p.Usuario);
+            return View(await context.ToListAsync());
         }
 
-    
+      
+
         public IActionResult Perfil()
         {
             if (HttpContext.Session.GetString("Usuario") != null)
@@ -63,7 +70,9 @@ namespace FINAL_MVC.Controllers
                     {
                         _context.Update(usuario2);
                         await _context.SaveChangesAsync();
-                    }catch (DbUpdateConcurrencyException){
+                        ViewBag.AvisoEdit = "Usuario editado";
+                    }
+                    catch (DbUpdateConcurrencyException){
                         if (!UsuarioExists(usuario2.ID))
                         {
                             return NotFound();
@@ -73,7 +82,7 @@ namespace FINAL_MVC.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction("UsuarioComun","Perfil");
+                    return View("Perfil",usuario2);
                 }
                 return View(usuario2);
             }
