@@ -21,7 +21,7 @@ namespace FINAL_MVC.Models
         // GET: Tags
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -33,7 +33,7 @@ namespace FINAL_MVC.Models
         // GET: Tags/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -55,7 +55,7 @@ namespace FINAL_MVC.Models
         // GET: Tags/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -69,7 +69,7 @@ namespace FINAL_MVC.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Palabra")] Tag tag)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -85,7 +85,7 @@ namespace FINAL_MVC.Models
         // GET: Tags/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -109,7 +109,7 @@ namespace FINAL_MVC.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Palabra")] Tag tag)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -144,7 +144,7 @@ namespace FINAL_MVC.Models
         // GET: Tags/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -168,7 +168,7 @@ namespace FINAL_MVC.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }

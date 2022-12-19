@@ -22,7 +22,7 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -33,7 +33,7 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -57,7 +57,7 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -73,7 +73,7 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -92,7 +92,7 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -117,7 +117,7 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -154,7 +154,7 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -180,7 +180,7 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
