@@ -56,6 +56,8 @@ namespace FINAL_MVC.Controllers
                 Usuario usuariolog = _context.Usuarios.AsNoTracking().FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
                 if (ModelState.IsValid)
                 {
+                    usuario2.Password = BCryptNet.HashPassword(usuario2.Password);
+                   
                     try
                     {
                         _context.Update(usuario2);
@@ -70,7 +72,7 @@ namespace FINAL_MVC.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("UsuarioComun","Perfil");
                 }
                 return View(usuario2);
             }
