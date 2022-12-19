@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FINAL_MVC</a>
+               
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,7 +34,7 @@
              @if (ViewContext.HttpContext.Session.GetString("UsuarioLogueado") != null || (ViewContext.HttpContext.Session.GetString("UsuarioLogueadoAdmin") != null ) ) {
                 
             
-
+                  <input type="button" class="btn btn-primary" value="Perfil" onclick="@("window.location.href='" + @Url.Action("Perfil", "UsuarioComun") + "'");" />
                 <input onclick="@("window.location.href='" + @Url.Action("Logoff", "Admin") + "'");" type="button" value="Cerrar Sesion " class="btn btn-light" />
             }
              
