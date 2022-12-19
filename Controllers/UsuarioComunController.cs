@@ -26,6 +26,7 @@ namespace FINAL_MVC.Controllers
             return View();
         }
 
+    
         public IActionResult Perfil()
         {
             if (HttpContext.Session.GetString("Usuario") != null)
