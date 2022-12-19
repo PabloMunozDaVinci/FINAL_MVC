@@ -50,7 +50,7 @@ namespace FINAL_MVC.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("InicioUsuario", "Posts");
+                    return RedirectToAction("InicioUsuario", "UsuarioComun");
                 }
             }
             else
@@ -111,7 +111,7 @@ namespace FINAL_MVC.Controllers
                             //usuario es cliente
                             HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
                             HttpContext.Session.SetString("UsuarioLogueado", usuario.ID.ToString());
-                            return RedirectToAction("inicioUsuario", "Posts");
+                            return RedirectToAction("InicioUsuario", "UsuarioComun");
                         }
                     }
                     else

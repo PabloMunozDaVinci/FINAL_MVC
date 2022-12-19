@@ -25,8 +25,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             return _context.Usuarios != null ?
                         View(await _context.Usuarios.ToListAsync()) :
                         Problem("Entity set 'Context.Usuarios'  is null.");
@@ -38,8 +37,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -58,6 +56,10 @@ namespace FINAL_MVC.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -71,8 +73,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(usuario);
@@ -88,8 +89,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -113,8 +113,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id != usuario.ID)
             {
                 return NotFound();
@@ -149,8 +148,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id == null || _context.Usuarios == null)
             {
                 return NotFound();
@@ -174,8 +172,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (_context.Usuarios == null)
             {
                 return Problem("Entity set 'Context.Usuarios'  is null.");

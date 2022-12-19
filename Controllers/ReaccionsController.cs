@@ -25,8 +25,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             var context = _context.Reacciones.Include(r => r.Post).Include(r => r.Usuario);
             return View(await context.ToListAsync());
         }
@@ -37,7 +36,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
+            }
             if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
@@ -61,8 +60,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID");
             ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID");
             return View();
@@ -78,8 +76,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(reaccion);
@@ -97,8 +94,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
@@ -124,8 +120,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-
-            };
+            }
             if (id != reaccion.ID)
             {
                 return NotFound();
@@ -162,8 +157,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id == null || _context.Reacciones == null)
             {
                 return NotFound();
@@ -189,8 +183,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (_context.Reacciones == null)
             {
                 return Problem("Entity set 'Context.Reacciones'  is null.");

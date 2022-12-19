@@ -24,8 +24,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             return _context.Tags != null ? 
                           View(await _context.Tags.ToListAsync()) :
                           Problem("Entity set 'Context.Tags'  is null.");
@@ -37,9 +36,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-
-            };
-
+            }
             if (id == null || _context.Tags == null)
             {
                 return NotFound();
@@ -61,8 +58,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             return View();
         }
 
@@ -76,8 +72,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(tag);
@@ -93,8 +88,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id == null || _context.Tags == null)
             {
                 return NotFound();
@@ -118,8 +112,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-
-            };
+            }
             if (id != tag.ID)
             {
                 return NotFound();
@@ -154,8 +147,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (id == null || _context.Tags == null)
             {
                 return NotFound();
@@ -179,9 +171,7 @@ namespace FINAL_MVC.Models
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-
-            };
-
+            }
             if (_context.Tags == null)
             {
                 return Problem("Entity set 'Context.Tags'  is null.");

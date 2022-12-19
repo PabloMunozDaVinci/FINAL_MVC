@@ -19,41 +19,14 @@ namespace FINAL_MVC.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> inicioUsuario()
-        {
-            //   if (HttpContext.Session.GetString("UsuarioLogueado") == null)
-            // {
-            //   return RedirectToAction("Index", "Home");
-            //};
-            var context = _context.Posts.Include(p => p.Usuario).Include(p => p.Comentarios).Include(p => p.Tags).Include(p => p.Reacciones);
-            return View(await context.ToListAsync());
-
-
-        }
-
-
-
-
-        // GET: Posts
-        //public async Task<IActionResult> inicioUsuario()
-        //{
-        // //   if (HttpContext.Session.GetString("UsuarioLogueado") == null)
-        //   // {
-        //     //   return RedirectToAction("Index", "Home");
-        //    //};
-        //    var context = _context.Posts.Include(p => p.Usuario);
-        //    return View(await context.ToListAsync());
-        //}
-        
-
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
 
+            }
             if (id == null || _context.Posts == null)
             {
                 return NotFound();
@@ -76,8 +49,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID");
             return View();
         }
@@ -92,8 +64,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(post);
@@ -110,7 +81,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
+            }
             if (id == null || _context.Posts == null)
             {
                 return NotFound();
@@ -135,7 +106,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
+            }
             if (id != post.ID)
             {
                 return NotFound();
@@ -171,7 +142,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
+            }
             if (id == null || _context.Posts == null)
             {
                 return NotFound();
@@ -196,8 +167,7 @@ namespace FINAL_MVC.Controllers
             if (HttpContext.Session.GetString("UsuarioLogueado") == null)
             {
                 return RedirectToAction("Index", "Home");
-            };
-
+            }
             if (_context.Posts == null)
             {
                 return Problem("Entity set 'Context.Posts'  is null.");
@@ -226,5 +196,6 @@ namespace FINAL_MVC.Controllers
             };
             return View();
         }
+
     }
 }
