@@ -20,6 +20,15 @@ namespace FINAL_MVC.Controllers
         }
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("UsuarioLogueado" ) != null) {
+                return RedirectToAction("InicioUsuario", "Posts");
+            };
+
+            if (HttpContext.Session.GetString("UsuarioLogueadoAdmin") == null)
+            {
+                return RedirectToAction("InicioUsuario", "Posts");
+            };
+
             return View();
         }
 
@@ -50,6 +59,14 @@ namespace FINAL_MVC.Controllers
             }
 
         }
+
+
+
+
+
+    
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -121,7 +138,7 @@ namespace FINAL_MVC.Controllers
 
                     ViewBag.Error = "El usuario se encuentra bloqueado";
 
-                    return View();
+                    return RedirectToAction("Index", "Home");
                 }
             }
             else
