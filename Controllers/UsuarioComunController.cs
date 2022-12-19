@@ -40,35 +40,44 @@ namespace FINAL_MVC.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult EditarPerfil(Usuario usuarioEdit)
+        private bool UsuarioExists(int id)
         {
-            if (HttpContext.Session.GetString("Usuario").ToString() != null)
-            {
-                string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
-                //Usuario usuario = _context.Usuario.FirstOrDefault(m => m.id == Int32.Parse(usuarioId));
-                //info
-                if (ModelState.IsValid)
-                {
-                    Usuario user = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
-                    string pass = user.Password;
-                    user = null;
-                    _context.Update(usuarioEdit);
-                    _context.SaveChanges();
-                    ViewBag.AvisoEdit = "Usuario editado";
-                    return View("Perfil", usuarioEdit);
-                }
-                else
-                {
-                    return ViewBag.AvisoEdit = "Error";
-                }
-            }
-            else
-            {
-                return View("InicioUsuario", "UsuarioComun");
-            }
+            return _context.Usuarios.Any(e => e.ID == id);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
 
+        public async Task<IActionResult> EditarPerfil(int id, Usuario usuario2)
+        {
+
+            if (HttpContext.Session.GetString("Usuario") != null)
+            {
+                string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
+                Usuario usuariolog = _context.Usuarios.AsNoTracking().FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(usuario2);
+                        await _context.SaveChangesAsync();
+                    }catch (DbUpdateConcurrencyException){
+                        if (!UsuarioExists(usuario2.ID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(usuario2);
+            }
+            else{
+                return RedirectToAction("Index", "Home");
+            }
+        }
     }
 }
