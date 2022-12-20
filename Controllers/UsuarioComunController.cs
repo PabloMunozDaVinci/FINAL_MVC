@@ -32,7 +32,20 @@ namespace FINAL_MVC.Controllers
             return View(await context.ToListAsync());
         }
 
-      
+        public async Task<IActionResult> Amigos()
+        {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var context = _context.Usuarios.Include(u => u.AmigosMios);
+            return View(await context.ToListAsync());
+
+        }
+
+
+
+
 
         public IActionResult Perfil()
         {
@@ -110,6 +123,7 @@ namespace FINAL_MVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
+       
 
     }
 }
