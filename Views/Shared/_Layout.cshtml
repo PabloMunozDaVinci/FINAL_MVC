@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FINAL_MVC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@Url.Content(" ~/css/Amigos.css")"  type="Text/css" />
+     @RenderSection("styles", false)
 </head>
 <body>
     <header>
@@ -33,7 +35,7 @@
             </div>
              @if (ViewContext.HttpContext.Session.GetString("UsuarioLogueado") != null || (ViewContext.HttpContext.Session.GetString("UsuarioLogueadoAdmin") != null ) ) {
                 
-            
+            <input type="button" class="btn btn-primary" value="Mis Amigos" onclick="@("window.location.href='" + @Url.Action("Amigos", "UsuarioComun") + "'");" />
                   <input type="button" class="btn btn-primary" value="Perfil" onclick="@("window.location.href='" + @Url.Action("Perfil", "UsuarioComun") + "'");" />
                 <input onclick="@("window.location.href='" + @Url.Action("Logoff", "Admin") + "'");" type="button" value="Cerrar Sesion " class="btn btn-light" />
             }
