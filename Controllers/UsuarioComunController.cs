@@ -90,5 +90,27 @@ namespace FINAL_MVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EliminarMiUsuario()
+        {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
+            var usuario = await _context.Usuarios.FindAsync(usuarioId);
+            if (usuario != null)
+            {
+                _context.Usuarios.Remove(usuario);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
     }
 }
