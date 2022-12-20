@@ -91,7 +91,7 @@ namespace FINAL_MVC.Controllers
             }
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("EliminarMiUsuario")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EliminarMiUsuario()
         {
@@ -101,7 +101,8 @@ namespace FINAL_MVC.Controllers
             }
 
             string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
-            var usuario = await _context.Usuarios.FindAsync(usuarioId);
+            int user = Int32.Parse(usuarioId);
+            var usuario = await _context.Usuarios.FindAsync(user);
             if (usuario != null)
             {
                 _context.Usuarios.Remove(usuario);
@@ -109,8 +110,6 @@ namespace FINAL_MVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
-
-
 
     }
 }
