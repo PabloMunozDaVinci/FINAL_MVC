@@ -24,13 +24,13 @@
           </p>
         </div>
 
-        <div class="col-lg-6 mb-5 mb-lg-0">
+        <div class="col-lg-5 mb-5 mb-lg-0">
           <div class="card">
-            <div class="card-body py-5 px-md-5">
+            <div class="card-body py-4 px-md-4">
                  
                 <!--Login -->
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <form asp-action="Login">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
@@ -52,17 +52,16 @@
                                 </div>
                             }
                                 <div class="form-group">
-                                    <input asp-action="Login" asp-controller="Admin" type="submit" value="login" class="btn btn-primary" />
-                            </div>
+                                    <input asp-action="Login" asp-controller="Admin" type="submit" value="Login" class="btn btn-primary" />
+                                </div>
+                                <hr />
+                                <!-- Register button -->
+                                <div class="form-group">
+                                    <input asp-action="Index" asp-controller="Registro" type="button" value="Registrarse" class="btn btn-primary" />
+                                </div>
                         </form>
                     </div>
                 </div>
-
-                <!-- Register button -->
-                <div class="text-center">
-                    <a class="btn btn-block btn-outline-info mr-1" type="button" asp-area="" asp-controller="Registro" asp-action="Index">Registrarse</a>
-                </div>
-
             </div>
           </div>
         </div>
