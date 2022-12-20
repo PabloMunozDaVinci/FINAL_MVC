@@ -50,6 +50,12 @@
                     <input type="submit" value="Save" asp class="btn btn-primary" />
                 </div>
             </form>
+           <input type="button" class="btn btn-primary" value="Volver" onclick="@("window.location.href='" + @Url.Action("InicioUsuario", "UsuarioComun") + "'");" />
+           <form asp-action="EliminarMiUsuario">
+            <input type="hidden" asp-for="ID" />
+            <input type="submit" class="btn btn-primary" value="Eliminar Usuario" />
+           </form>
+
         </div>
     </div>
 
