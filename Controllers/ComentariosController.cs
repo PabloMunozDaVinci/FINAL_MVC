@@ -201,7 +201,6 @@ namespace FINAL_MVC.Controllers
         private bool ComentarioExists(int id)
         {
           return _context.Comentarios.Any(e => e.ID == id);
-          return (_context.Comentarios?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

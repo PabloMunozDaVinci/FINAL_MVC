@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FINAL_MVC.Data;
-using Microsoft.AspNetCore.Mvc;
 using FINAL_MVC.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
