@@ -21,31 +21,71 @@ namespace FINAL_MVC.Controllers
             return View();
         }
 
+        private void inicializarAtributos()
+        {
+            try
+            {
+
+                _context.Usuarios.Include(u => u.MisPosts)
+                   .Include(u => u.MisComentarios)
+                   .Include(u => u.MisReacciones)
+                   .Include(u => u.MisAmigos)
+                   .Include(u => u.AmigosMios)
+                   .Load();
+
+                _context.Posts.Include(p => p.Usuario)
+                    .Include(p => p.Comentarios)
+                    .Include(p => p.Reacciones)
+                    .Include(p => p.Tags)
+                    .Load();
+
+                _context.Comentarios.Include(c => c.Usuario)
+                    .Include(c => c.Post)
+                    .Load();
+
+                _context.Tags.Include(t => t.TagPost)
+                    .Include(t => t.Posts)
+                    .Load();
+
+                _context.Reacciones.Include(r => r.Usuario)
+                    .Include(r => r.Post)
+                    .Load();
+
+                //Guardo los cambios 
+                _context.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         public async Task<IActionResult> InicioUsuario()
         {
             if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
-
             }
             var context = _context.Posts.Include(p => p.Usuario);
             return View(await context.ToListAsync());
         }
 
-        public async Task<IActionResult> Amigos()
+        public IActionResult Amigos()
         {
             if (HttpContext.Session.GetString("Usuario") == null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            var context = _context.Usuarios.Include(u => u.AmigosMios);
-            return View(await context.ToListAsync());
-
+            _context.Usuarios.Include(u => u.MisPosts)
+               .Include(u => u.MisAmigos)
+               .Include(u => u.AmigosMios)
+               .Load();
+            string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
+            //var context = _context.Usuarios.Include(u => u.AmigosMios);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
+            return View(usuario.MisAmigos.ToList());
         }
-
-
-
-
 
         public IActionResult Perfil()
         {

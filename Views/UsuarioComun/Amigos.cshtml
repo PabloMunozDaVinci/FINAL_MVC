@@ -3,7 +3,7 @@
 }
 
 
-@model IEnumerable<FINAL_MVC.Models.Usuario>
+@model IEnumerable<FINAL_MVC.Models.UsuarioAmigo>
 
 @{
     ViewData["Title"] = "Amigos";
@@ -62,6 +62,7 @@
 
 
                      <!-- begin row -->
+                     <form asp-action="Amigos">
                      <div class="row row-space-2">
                         <!-- begin col-6 -->
                         <div class="col-md-6 m-b-2">
@@ -72,7 +73,7 @@
                                  <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle">
                                  </a>
                                  <div class="media-body valign-middle">
-                                    <b class="text-inverse"> @Html.DisplayFor(modelItem => item.Nombre)</b>
+                                    <b class="text-inverse"> @Html.DisplayFor(modelItem => item.Amigo.Nombre)</b>
                                  </div>
                                  <div class="media-body valign-middle text-right overflow-visible">
                                     <div class="btn-group dropdown">
@@ -90,6 +91,7 @@
                               </div>
                            </div>
                             }
+                           </form>
 
                         </div>
                         <!-- end col-6 -->
