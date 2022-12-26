@@ -34,6 +34,7 @@
     <!-- Fin Postear -->
     
 
+
     <!-- Ver Post -->
     <div class="container">
         <div class="row">
@@ -42,8 +43,8 @@
                 <section class="comment-list">
 
                     @foreach (var item in Model) {
-                                            
-                    <!-- Primer Post -->
+                    
+                        <!-- Primer Post -->
                     <article class="row">
                         <div class="col-md-2 col-sm-2 hidden-xs">
                             <figure class="thumbnail">
@@ -71,25 +72,26 @@
                                             <div class="col-md-5">
                                                 <h2 class="page-header">Comments</h2>
                                                 <section class="comment-list">
-                                                    @*@foreach (var item in Model) {   *@     
+                                                @foreach (var comentario in item.Comentarios)
+                                                {
                                                     <!-- Primer Comentario -->
                                                     <article class="row">
                                                         <d  iv class="col-md-2 col-sm-2 hidden-xs">
                                                             <figure class="thumbnail">
                                                                 <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
-                                                                <figcaption class="text-center">  @Html.DisplayFor(modelItem => item.Usuario.Nombre) </figcaption>
+                                                                <figcaption class="text-center">  @comentario.Usuario.Nombre </figcaption>
                                                             </figure>
                                                         </d>
                                                         <div class="col-md-10 col-sm-10">
                                                             <div class="panel panel-default arrow left">
                                                                 <div class="panel-body">
                                                                     <header class="text-left">
-                                                                        <div class="comment-user"><i class="fa fa-user"></i> That Guy</div>
-                                                                        <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> Dec 16, 2014</time>
+                                                                        <div class="comment-user"><i class="fa fa-user"></i> @comentario.Usuario.Nombre </div>
+                                                                        <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>  @comentario.Fecha </time>
                                                                     </header>
                                                                     <div class="comment-post">
                                                                         <p>
-                                                                            @Html.DisplayFor(modelItem => item.Comentarios)
+                                                                            @comentario.Contenido
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -97,7 +99,7 @@
                                                         </div>
                                                     </article>
                                                     <!-- Final comentario -->
-                                                    @*}*@
+                                                    }
                                                 </section>
                                             </div>
                                         </div>
