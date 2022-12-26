@@ -51,78 +51,64 @@
                <!-- begin tab-content -->
                <div class="tab-content p-0">
                   <!-- begin #profile-friends tab -->
-                     <input type="text" class="form-control" name="BuscarAmigos" value="Ingrese el E-mail de su amigo">
-                    <input type="submit" value="Agregar Amigo" class="btn btn-primary" />
+                        <!--Buscar Amigos a Agregar -->
+                     @*   @if (ViewBag.UsuarioAgregado!=null) {
+                            <input type="text" class="btn btn-success" name="mailAmigo" value="Usuario agregado satisfactoriamente">
+                        }
+*@
+                        <form asp-controller="UsuarioComun" asp-action="AgregarAmigo">
+                            <input type="text" class="form-control" name="mailAmigo" value="Ingrese el E-mail de su amigo">
 
-                  <div class="tab-pane fade in active show" id="profile-friends">
 
-               
+                            <input type="submit" value="Agregar" name="mailAmigo" />
+                        </form>
 
-                     <h4 class="m-t-0 m-b-20">Friend List (14)</h4>
+                        <div class="tab-pane fade in active show" id="profile-friends">
 
 
-                     <!-- begin row -->
-                     <form asp-action="Amigos">
-                     <div class="row row-space-2">
-                        <!-- begin col-6 -->
-                        <div class="col-md-6 m-b-2">
-                             @foreach (var item in Model) {
-                           <div class="p-10 bg-white">
-                              <div class="media media-xs overflow-visible">
-                                 <a class="media-left" href="javascript:;">
-                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle">
-                                 </a>
-                                 <div class="media-body valign-middle">
-                                    <b class="text-inverse"> @Html.DisplayFor(modelItem => item.Amigo.Nombre)</b>
-                                 </div>
-                                 <div class="media-body valign-middle text-right overflow-visible">
-                                    <div class="btn-group dropdown">
-                              
-                                       <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false"></a>
-                                       <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(101px, 34px, 0px);">
-                                          <li><a href="javascript:;">Action 1</a></li>
-                                          <li><a href="javascript:;">Action 2</a></li>
-                                          <li><a href="javascript:;">Action 3</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="javascript:;">Action 4</a></li>
-                                       </ul>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                            }
-                           </form>
+
+                            <h4 class="m-t-0 m-b-20">Friend List (@ViewBag.AmigosCount)</h4>
+
+
+                            <!-- begin row -->
+
+                            <div class="row row-space-2">
+                                <!-- begin col-6 -->
+                                <div class="col-md-6 m-b-2">
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="p-10 bg-white">
+                                            <div class="media media-xs overflow-visible">
+                                                <a class="media-left" href="javascript:;">
+                                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle">
+                                                </a>
+                                                <div class="media-body valign-middle">
+                                                    <b class="text-inverse"> @Html.DisplayFor(modelItem => item.Amigo.Nombre)</b>
+                                                </div>
+                                                <div class="media-body valign-middle text-right overflow-visible">
+
+
+                                                    <form asp-action="DeleteAmigo">
+                                                        <input type="submit" value="Eliminar amigo" class="btn btn-primary" asp-action="DeleteAmigo" asp-controller="UsuarioComun" asp-route-id="@item.Amigo.ID" />
+                                                    </form>
+
+
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
 
                         </div>
                         <!-- end col-6 -->
                         <!-- begin col-6 -->
                         <!-- end col-6 -->
                         <!-- begin col-6 -->
-                        <div class="col-md-6 m-b-2">
-                           <div class="p-10 bg-white">
-                              <div class="media media-xs overflow-visible">
-                                 <a class="media-left" href="javascript:;">
-                                 <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="" class="media-object img-circle">
-                                 </a>
-                                 <div class="media-body valign-middle">
-                                    <b class="text-inverse">Gabrielle Bunton</b>
-                                 </div>
-                                 <div class="media-body valign-middle text-right overflow-visible">
-                                    <div class="btn-group dropdown">
-                                  
-                                       <a href="javascript:;" data-toggle="dropdown" class="btn btn-default dropdown-toggle"></a>
-                                       <ul class="dropdown-menu dropdown-menu-right">
-                                          <li><a href="javascript:;">Action 1</a></li>
-                                          <li><a href="javascript:;">Action 2</a></li>
-                                          <li><a href="javascript:;">Action 3</a></li>
-                                          <li class="divider"></li>
-                                          <li><a href="javascript:;">Action 4</a></li>
-                                       </ul>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+                     
                         <!-- end col-6 -->
                      </div>
                      <!-- end row -->
@@ -137,4 +123,3 @@
       </div>
    </div>
 </div>
-

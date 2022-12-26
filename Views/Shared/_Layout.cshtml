@@ -38,7 +38,7 @@
                 </div>
                
             </div>
-             @if (ViewContext.HttpContext.Session.GetString("UsuarioLogueado") != null || (ViewContext.HttpContext.Session.GetString("UsuarioLogueadoAdmin") != null ) ) {
+             @if (ViewContext.HttpContext.Session.GetString("Usuario") != null || (ViewContext.HttpContext.Session.GetString("UsuarioLogueadoAdmin") != null ) ) {
                 <input type="button" class="btn btn-primary" value="Inicio" onclick="@("window.location.href='" + @Url.Action("InicioUsuario", "UsuarioComun") + "'");" />
                 <input type="button" class="btn btn-primary" value="Mis Amigos" onclick="@("window.location.href='" + @Url.Action("Amigos", "UsuarioComun") + "'");" />
                 <input type="button" class="btn btn-primary" value="Perfil" onclick="@("window.location.href='" + @Url.Action("Perfil", "UsuarioComun") + "'");" />

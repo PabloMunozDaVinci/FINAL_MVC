@@ -19,138 +19,75 @@ namespace FINAL_MVC.Controllers
         }
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UsuarioLogueado" ) != null) {
-                return RedirectToAction("InicioUsuario", "Posts");
-            };
-
-            if (HttpContext.Session.GetString("UsuarioLogueadoAdmin") == null)
+            if (HttpContext.Session.GetString("Usuario") != null) {
+                return View();
+            }
+            else
             {
-                return RedirectToAction("InicioUsuario", "Posts");
-            };
-
-            return View();
+                return RedirectToAction("Index", "Home");
+            }
         }
-
-
 
         public IActionResult Login()
         {
-            //Consulto si en la session existe algo guardado en usuario
-            if (HttpContext.Session.GetString("Usuario") != null)
+            // Almacena en usuarioId los datos de la sesión del usuario, si existen
+            var usuarioId = HttpContext.Session.GetString("Usuario");
+            if (usuarioId != null)
             {
-                //Guardo en usuarioID los datos de session del usuario
-                string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
-                Usuario usuario = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
+                // Busca el usuario en la base de datos
+                var usuario = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
 
-                //validacion de tipo de usuario para dirigir a la vista pertinente
-                if (usuario.EsAdmin)
-                {
-                    return RedirectToAction("Index", "Admin");
-                }
-                else
-                {
-                    return RedirectToAction("InicioUsuario", "UsuarioComun");
-                }
+                // Valida el tipo de usuario y redirige a la vista apropiada
+                return usuario.EsAdmin ? RedirectToAction("Index", "Admin") : RedirectToAction("InicioUsuario", "UsuarioComun");
             }
             else
             {
+                // Si no hay usuario en la sesión, redirige al inicio de sesión
                 return RedirectToAction("Login", "Home");
             }
-
         }
-
-
-
-
-
-    
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(string Mail, string password)
+        public async Task<IActionResult> Login(string Mail, string password)
         {
-            Usuario usuario = _context.Usuarios.Where(U => U.Mail == Mail).FirstOrDefault();
-
-
-            if (usuario != null)
-            { //msg usuario valio
-
-                HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
-
-                if (!usuario.Bloqueado)
-                {
-                    //preguntar si el usuario no está bloqueado
-
-                    if //(usuario.Password == password)     
-                           ( BCryptNet.Verify(password, usuario.Password))
-                    {
-                        if (usuario.Intentos != 0)
-                        {
-                            usuario.Intentos = 0;
-                            _context.Usuarios.Update(usuario);
-                            _context.SaveChanges();
-                        }
-                        if (usuario.EsAdmin)
-                        {
-                            //usuario es admin
-                            HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
-                            HttpContext.Session.SetString("UsuarioLogueadoAdmin", usuario.ID.ToString());
-
-
-
-
-
-
-                            return RedirectToAction("Index", "Admin");
-                        }
-                        else
-                        {
-                            //usuario es cliente
-                            HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
-                            HttpContext.Session.SetString("UsuarioLogueado", usuario.ID.ToString());
-                            return RedirectToAction("InicioUsuario", "UsuarioComun");
-                        }
-                    }
-                    else
-                    {
-                        //usuario valio, contraseña invalida
-                        usuario.Intentos++;
-
-                        if (usuario.Intentos == 2)
-                        {
-                            usuario.Bloqueado = true;
-                        }
-                        _context.Usuarios.Update(usuario);
-                        _context.SaveChanges();
-
-                        ViewBag.Error = "Usuario y/o contraseña  incorrectos";
-
-                        return View();
-                        //contador de intentos de login
-                    }
-                }
-                else
-                {
-                    //mensaje busuario bloqueado
-
-                    ViewBag.Error = "El usuario se encuentra bloqueado";
-
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
+            // Busca el usuario en la base de datos
+            var usuario = _context.Usuarios.FirstOrDefault(u => u.Mail == Mail);
+            if (usuario == null)
             {
-                //msg usuario/contraseña no validos
-
                 ViewBag.Error = "Su usuario y/o contraseña es incorrecta";
-
                 return RedirectToAction("Index", "Home");
-
             }
-        }
 
+            if (usuario.Bloqueado)
+            {
+                ViewBag.Error = "El usuario se encuentra bloqueado";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Valida la contraseña del usuario
+            if (!BCryptNet.Verify(password, usuario.Password))
+            {
+                usuario.Intentos++;
+                if (usuario.Intentos == 2)
+                {
+                    usuario.Bloqueado = true;
+                }
+                _context.Usuarios.Update(usuario);
+                await _context.SaveChangesAsync();
+
+                ViewBag.Error = "Usuario y/o contraseña incorrectos";
+                return View();
+            }
+
+            usuario.Intentos = 0;
+            _context.Usuarios.Update(usuario);
+            await _context.SaveChangesAsync();
+
+            // Inicia sesión y redirige al panel de administración o la vista de usuario común según corresponda
+            HttpContext.Session.SetString("Usuario", usuario.ID.ToString());
+            return usuario.EsAdmin ? RedirectToAction("Index", "Admin") : RedirectToAction("InicioUsuario", "UsuarioComun");
+        }
 
        // [HttpPost]
         public IActionResult Logoff()
