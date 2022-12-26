@@ -1,10 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
 @model IEnumerable<FINAL_MVC.Models.Post>
-
 
 
 @{
     ViewData["Title"] = "InicioUsuario";
+    int usuarioId = int.Parse(HttpContextAccessor.HttpContext.Session.GetString("Usuario"));
+    //var amigos = _context.Amigos.Where(a => a.UsuarioID == usuarioId).Select(a => a.AmigoID);
+    //var resultado = context.Model.Where(i => i.UsuarioID == usuarioId || amigos.Contains(i.UsuarioID)).ToList();
 }
 
 <section class="">
@@ -41,8 +44,8 @@
             <div class="col-md-7">
                 <h2 class="page-header">Posts</h2>
                 <section class="comment-list">
-
-                    @foreach (var item in Model) {
+             
+                    @foreach (var item in Model.Where(i => i.UsuarioID == usuarioId)) {
                     
                         <!-- Primer Post -->
                     <article class="row">
@@ -64,8 +67,11 @@
                                             @Html.DisplayFor(modelItem => item.Contenido)
                                         </p>
                                     </div>
-                                    <input class="text-left form-control" />
-                                    <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Comentar</a></p>
+                                    <form asp-action="Comentar">
+                                    <input type="hidden" id="id" name="postID" value="@item.ID">
+                                    <input asp-controller="UsuarioComun" asp-action="Comentar" class="form-control" name="comentarioContenido" />
+                                    <input type="submit" value="Comentar" class="btn btn-primary" />
+                                    </form>
                                     <!-- Comentarios -->
                                     <div class="container">
                                         <div class="row">
