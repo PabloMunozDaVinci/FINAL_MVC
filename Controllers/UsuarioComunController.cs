@@ -15,6 +15,7 @@ namespace FINAL_MVC.Controllers
         public UsuarioComunController(Context context)
         {
             _context = context;
+            inicializarAtributos();
         }
         public IActionResult Index()
         {
@@ -25,7 +26,6 @@ namespace FINAL_MVC.Controllers
         {
             try
             {
-
                 _context.Usuarios.Include(u => u.MisPosts)
                    .Include(u => u.MisComentarios)
                    .Include(u => u.MisReacciones)
@@ -109,7 +109,7 @@ namespace FINAL_MVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> EditarPerfil(int id, Usuario usuario2)
+        public async Task<IActionResult> EditarPerfil(Usuario usuario2)
         {
             if (HttpContext.Session.GetString("Usuario") != null)
             {
@@ -163,7 +163,37 @@ namespace FINAL_MVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Home");
         }
-       
+
+        [HttpPost, ActionName("Postear")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Postear(string postContenido)
+        {
+            string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
+            Usuario usuariolog = _context.Usuarios.AsNoTracking().FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
+            DateTime now = DateTime.Now;
+            try
+            {
+                if (usuariolog != null)
+                {
+                    Post postAux = new Post { UsuarioID = usuariolog.ID, Contenido = postContenido, Fecha = now };
+                    _context.Update(postAux);
+                    _context.Posts.Add(postAux);
+                    usuariolog.MisPosts.Add(postAux);
+                    await _context.SaveChangesAsync();
+                    return View("InicioUsuario", usuariolog.MisPosts);
+                }
+                else
+                {
+                    return View("InicioUsuario", "UsuarioComun");
+                }
+                    
+            }
+            catch (Exception e)
+            {
+                return View("InicioUsuario", "UsuarioComun");
+            }
+        }
+
 
     }
 }
