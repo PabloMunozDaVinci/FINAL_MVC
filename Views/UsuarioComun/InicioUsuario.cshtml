@@ -19,16 +19,18 @@
     <!-- Fin Buscar -->
 
     <!-- Postear -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h2 class="page-header">Postear</h2>
-                <input class="text-left form-control" />
-                 <br>
-                <input type="submit" value="Postear" class="btn btn-primary " />
+    <form asp-action="Postear">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h2 class="page-header">Postear</h2>
+                    <input asp-controller="UsuarioComun" asp-action="Postear" class="form-control" name="postContenido" />
+                    <br>
+                    <input type="submit" value="Postear" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-    </div>
+    </form>
     <!-- Fin Postear -->
     
 
