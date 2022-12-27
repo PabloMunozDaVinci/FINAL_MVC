@@ -232,7 +232,6 @@ namespace FINAL_MVC.Controllers
 
             if (ModelState.IsValid)
             {
-                usuario2.Password = BCryptNet.HashPassword(usuario2.Password);
                 _context.Attach(usuario2).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 ViewBag.AvisoEdit = "Usuario editado";
