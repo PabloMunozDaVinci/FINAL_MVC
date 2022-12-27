@@ -12,9 +12,9 @@
 <section class="">
    
     <!-- Buscar -->
-    <form asp-action="BuscarContenido" class="float-right row">
+    <form asp-action="BuscarPorUsuario" class="float-right row">
         <div class="d-flex flex-row justify-content-end col-4">
-            <input asp-controller="UsuarioComun" asp-action="BuscarContenido"  class="form-control" name="UsuarioBuscado" />
+            <input asp-controller="UsuarioComun" asp-action="BuscarPorUsuario"  class="form-control" name="UsuarioBuscado" />
             <input type="submit" value="Buscar Usuario" class="btn btn-primary" />
         </div>
     </form>
@@ -27,6 +27,11 @@
         </div>
     </form>
     <!-- Fin Buscar -->
+    <form asp-action="BusquedaPorFecha" >
+    <label for="date">Seleccione fecha:</label>
+    <input asp-controller="UsuarioComun" asp-action="BusquedaPorFecha"  name="date" type="date" id="date" value="">
+    <button type="submit">Buscar</button>
+</form>
     <!-- Postear -->
     <form asp-action="Postear">
         <div class="container">

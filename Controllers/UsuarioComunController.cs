@@ -74,7 +74,69 @@ namespace FINAL_MVC.Controllers
             return View(post);
         }
 
-        public async Task<IActionResult> BuscarContenido(string BusquedaContenido, string UsuarioBuscado)
+        [HttpPost]
+        public async Task<IActionResult>  BusquedaPorFecha(DateTime date)
+        {
+            var context = _context.Posts
+                 .Include(p => p.Usuario)
+                 .Include(p => p.Comentarios)
+                 .Include(p => p.Reacciones)
+                 .Include(p => p.Tags);
+
+          
+            var post = await context.ToListAsync();
+
+            var postsPorFecha = context
+                  .Where(p => p.Fecha.Date== date.Date);
+
+        
+         
+
+            if (date != null)
+            {
+                //List<Post> PostsContenido = posts.AsEnumerable().ToList();
+                post = await postsPorFecha.ToListAsync();
+            }
+
+            return View("InicioUsuario", post);
+
+        }
+
+
+
+            
+
+
+
+
+        
+        public async Task<IActionResult> BuscarPorUsuario( string UsuarioBuscado)
+        {
+            var usuarioId = HttpContext.Session.GetString("Usuario");
+            if (usuarioId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var contextUsuario = _context.Usuarios.Include(u => u.MisPosts);
+            var usuario = await contextUsuario.ToListAsync();
+            var usuarios = contextUsuario.Where(p => p.Nombre.ToLower().Contains(UsuarioBuscado.ToLower()));
+
+            if (!String.IsNullOrEmpty(UsuarioBuscado))
+            {
+               
+                usuario = await usuarios.ToListAsync();
+              
+            }
+          
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return View("InicioUsuario", usuario);
+        }
+
+
+            public async Task<IActionResult> BuscarContenido(string BusquedaContenido, string UsuarioBuscado)
         {
             var usuarioId = HttpContext.Session.GetString("Usuario");
             if (usuarioId == null)
@@ -103,17 +165,13 @@ namespace FINAL_MVC.Controllers
             //filtro por contenido
             if (!String.IsNullOrEmpty(BusquedaContenido))
             {
-                //List<Post> PostsContenido = posts.AsEnumerable().ToList();
+               
                 post = await posts.ToListAsync();
             }
 
-            if (!String.IsNullOrEmpty(UsuarioBuscado))
-            {
-                //List<Post> PostsContenido = posts.AsEnumerable().ToList();
-                usuario = await usuarios.ToListAsync();
-            }
+        
 
-            //var post = await context.ToListAsync();
+       
             if (post == null)
             {
                 return NotFound();

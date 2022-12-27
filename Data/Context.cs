@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace FINAL_MVC.Data
 {
@@ -177,23 +177,54 @@ namespace FINAL_MVC.Data
 
             //AGREGO ALGUNOS DATOS DE PRUEBA
             modelBuilder.Entity<Usuario>().HasData(
-                new { ID = 1, Nombre = "administrador", Apellido = "adminApellido", Mail = "administrador@gmail.com", Password = "administrador", EsAdmin = true, Bloqueado = false, Intentos = 0 },
-                new { ID = 2, Nombre = "usuario1", Apellido = "usuario1Apellido", Mail = "usuario1@gmail.com", Password = "usuario1", EsAdmin = false, Bloqueado = false, Intentos = 0 },
-                new { ID = 3, Nombre = "usuario2", Apellido = "usuario2Apellido", Mail = "usuario2@gmail.com", Password = "usuario2", EsAdmin = false, Bloqueado = false, Intentos = 0 });
+                new { ID = 1, Nombre = "administrador", Apellido = "adminApellido", Mail = "administrador@gmail.com", Password = BCryptNet.HashPassword("administrador"), EsAdmin = true, Bloqueado = false, Intentos = 0 },
+                new { ID = 2, Nombre = "usuario1", Apellido = "usuario1Apellido", Mail = "usuario1@gmail.com", Password = BCryptNet.HashPassword("usuario1") , EsAdmin = false, Bloqueado = false, Intentos = 0 },
+                new { ID = 3, Nombre = "usuario2", Apellido = "usuario2Apellido", Mail = "usuario2@gmail.com", Password = BCryptNet.HashPassword("usuario2"), EsAdmin = false, Bloqueado = false, Intentos = 0 });
+           
 
             modelBuilder.Entity<Post>().HasData(
-                new { ID = 1, UsuarioID = 2, Contenido = "111", Fecha = now },
-                new { ID = 2, UsuarioID = 3, Contenido = "222", Fecha = now },
-                new { ID = 3, UsuarioID = 2, Contenido = "333", Fecha = now },
-                new { ID = 4, UsuarioID = 3, Contenido = "444", Fecha = now },
-                new { ID = 5, UsuarioID = 2, Contenido = "555", Fecha = now });
+                new { ID = 1, UsuarioID = 2, Contenido = "Esto es un post de prueba", Fecha = now },
+                new { ID = 2, UsuarioID = 3, Contenido = "lorem ipsum dolor amet", Fecha = now },
+                new { ID = 3, UsuarioID = 2, Contenido = "messi campeon mundial , lleva a argentina a la victora", Fecha = now },
+                new { ID = 4, UsuarioID = 3, Contenido = "crisis economica en venezuela , se complica la situacion", Fecha = now },
+                new { ID = 5, UsuarioID = 2, Contenido = "las mejores recetas de cocina en nuestra web", Fecha = now });
 
+            modelBuilder.Entity<Comentario>().HasData(
+                 
+                 new { ID = 1, PostID = 1, UsuarioID = 2, Contenido = "comentario aleatorio",Fecha=now},
+                 new { ID = 2, PostID = 2, UsuarioID = 3, Contenido = "comentario aleatorio1", Fecha = now },
+                 new { ID = 3, PostID = 1, UsuarioID = 2, Contenido = "comentario aleatorio2", Fecha = now },
+                 new { ID = 4, PostID = 4, UsuarioID = 3, Contenido = "comentario aleatorio3", Fecha = now },
+                 new { ID = 5, PostID = 5, UsuarioID = 2, Contenido = "comentario aleatorio4", Fecha = now }
+                ); ;
 
+            //modelBuilder.Entity<Reaccion>().HasData(
+
+            //    new { ID = 1, Tipo = "a", PostID = 1, UsuarioID = 2 },
+            //    new { ID = 2, Tipo = "a", PostID = 2, UsuarioID = 3 },
+            //    new { ID = 3, Tipo = "a", PostID = 4, UsuarioID = 3 },
+            //    new { ID = 4, Tipo = "a", PostID = 5, UsuarioID = 2 },
+            //    new { ID = 5, Tipo = "a", PostID = 3, UsuarioID = 2 }
+            //    );
+
+            modelBuilder.Entity<Tag>().HasData(
+
+               new { ID = 1,Palabra  = "messi" },
+               new { ID = 2, Palabra = "Comida" },
+               new { ID = 3, Palabra = "politica" },
+               new { ID = 4, Palabra = "religion" },
+               new { ID = 5, Palabra = "deporte" }
+               );
 
 
         }
-
-
+        public int ID { get; set; }
+        public int PostID { get; set; }
+        public int UsuarioID { get; set; }
+        public Post? Post { get; set; }
+        public string Contenido { get; set; }
+        public Usuario? Usuario { get; set; }
+        public DateTime Fecha { get; set; }
 
     }
 }
