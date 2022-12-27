@@ -22,6 +22,10 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var context = _context.Comentarios.Include(c => c.Post).Include(c => c.Usuario);
             return View(await context.ToListAsync());
         }
@@ -29,6 +33,10 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null || _context.Comentarios == null)
             {
                 return NotFound();
@@ -49,6 +57,10 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewData["PostID"] = new SelectList(_context.Posts, "ID", "ID");
             ViewData["UsuarioID"] = new SelectList(_context.Usuarios, "ID", "ID");
             return View();
@@ -61,6 +73,10 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(comentario);
@@ -76,11 +92,14 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null || _context.Comentarios == null)
             {
                 return NotFound();
             }
-
             var comentario = await _context.Comentarios.FindAsync(id);
             if (comentario == null)
             {
@@ -98,6 +117,10 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,PostID,UsuarioID,Contenido,Fecha")] Comentario comentario)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id != comentario.ID)
             {
                 return NotFound();
@@ -131,6 +154,10 @@ namespace FINAL_MVC.Controllers
         // GET: Comentarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null || _context.Comentarios == null)
             {
                 return NotFound();
@@ -153,6 +180,10 @@ namespace FINAL_MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetString("Usuario") == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (_context.Comentarios == null)
             {
                 return Problem("Entity set 'Context.Comentarios'  is null.");
@@ -169,11 +200,7 @@ namespace FINAL_MVC.Controllers
 
         private bool ComentarioExists(int id)
         {
-
           return _context.Comentarios.Any(e => e.ID == id);
-
-            return (_context.Comentarios?.Any(e => e.ID == id)).GetValueOrDefault();
-
         }
     }
 }

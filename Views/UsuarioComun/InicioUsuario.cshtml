@@ -1,0 +1,157 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@model IEnumerable<FINAL_MVC.Models.Post>
+
+
+@{
+    ViewData["Title"] = "InicioUsuario";
+    int usuarioId = int.Parse(HttpContextAccessor.HttpContext.Session.GetString("Usuario"));
+    
+}
+
+<section class="">
+
+    <!-- Buscar -->
+    <form asp-action="BuscarContenido" class="float-right row">
+        <div class="d-flex flex-row justify-content-end col-4">
+            <input asp-controller="UsuarioComun" asp-action="BuscarContenido"  class="form-control" name="BusquedaContenido" />
+            <input type="submit" value="Buscar Contenido" class="btn btn-primary" />
+        </div>
+    </form>
+    <!-- Fin Buscar -->
+
+    <!-- Postear -->
+    <form asp-action="Postear">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h2 class="page-header">Postear</h2>
+                    <input asp-controller="UsuarioComun" asp-action="Postear" class="form-control" name="postContenido" />
+                    <br>
+                    <input type="submit" value="Postear" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Fin Postear -->
+    
+
+
+    <!-- Ver Post -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h2 class="page-header">Posts</h2>
+                <section class="comment-list">
+             
+                    @foreach (var item in Model.Where(i => i.UsuarioID == usuarioId)) {
+                    
+                        <!-- Primer Post -->
+                    <article class="row">
+                        <div class="col-md-2 col-sm-2 hidden-xs">
+                            <figure class="thumbnail">
+                                <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+                                <figcaption class="text-center">  @Html.DisplayFor(modelItem => item.Usuario.Nombre) </figcaption>
+                            </figure>
+                        </div>
+                        <div class="col-md-10 col-sm-10">
+                            <div class="panel panel-default arrow left">
+                                <div class="panel-body">
+                                    <header class="text-left">
+                                        <div class="comment-user"><i class="fa fa-user"></i> @Html.DisplayFor(modelItem => item.Usuario.Nombre) </div>
+                                        <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> @Html.DisplayFor(modelItem => item.Fecha) </time>
+                                    </header>
+                                    <div class="comment-post">
+                                        <p>
+                                            @Html.DisplayFor(modelItem => item.Contenido)
+                                        </p>
+                                    </div>
+                                    <form asp-action="Comentar">
+                                    <input type="hidden" id="id" name="postID" value="@item.ID">
+                                    <input asp-controller="UsuarioComun" asp-action="Comentar" class="form-control" name="comentarioContenido" />
+                                    <input type="submit" value="Comentar" class="btn btn-primary" />
+                                    </form>
+                                    <!-- Reacciones -->
+                                    <form asp-action="Reaccionar">
+                                     
+                                    <input type="hidden" id="id" name="postID" value="@item.ID">
+                                    <input type="submit" value="Reaccionar" class="btn btn-primary" />
+                                     <p>
+                                        Reacciones: @item.Reacciones.Count()
+                                    </p>
+                                    </form>
+                                    <!-- Fin reacciones -->
+                                    <!-- tags -->
+                                    <form asp-action="Tags">
+                                    <input type="hidden" id="id" name="postId" value="@item.ID">
+                                    <input asp-controller="UsuarioComun" asp-action="Tags" class="form-control" name="Palabra" />
+                                    <input type="submit" value="Agregar Tag" class="btn btn-primary" />
+                                    <p>tags:</p>
+                                    @foreach (var tags in item.Tags)
+                                    {
+                                     <p>
+                                        @tags.Palabra
+                                    </p>
+                                    }
+                                    </form>
+                                    <!-- Fin tags -->
+                                    <!-- Comentarios -->
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <h2 class="page-header">Comments</h2>
+                                                <section class="comment-list">
+                                                @foreach (var comentario in item.Comentarios)
+                                                {
+                                                    <!-- Primer Comentario -->
+                                                    <article class="row">
+                                                        <d  iv class="col-md-2 col-sm-2 hidden-xs">
+                                                            <figure class="thumbnail">
+                                                                <img class="img-responsive" src="http://www.tangoflooring.ca/wp-content/uploads/2015/07/user-avatar-placeholder.png" />
+                                                                <figcaption class="text-center">  @comentario.Usuario.Nombre </figcaption>
+                                                            </figure>
+                                                        </d>
+                                                        <div class="col-md-10 col-sm-10">
+                                                            <div class="panel panel-default arrow left">
+                                                                <div class="panel-body">
+                                                                    <header class="text-left">
+                                                                        <div class="comment-user"><i class="fa fa-user"></i> @comentario.Usuario.Nombre </div>
+                                                                        <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>  @comentario.Fecha </time>
+                                                                    </header>
+                                                                    <div class="comment-post">
+                                                                        <p>
+                                                                            @comentario.Contenido
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </article>
+                                                    <!-- Final comentario -->
+                                                    }
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Fin Comentarios -->
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Final primer Post -->
+                    }
+
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- Fin ver Post -->
+
+
+
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

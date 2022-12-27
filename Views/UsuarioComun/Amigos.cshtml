@@ -1,0 +1,117 @@
+﻿@section styles {
+    <link href="@Url.Content("~/css/Amigos.css")" rel="stylesheet" type="text/css" />
+}
+
+
+@model IEnumerable<FINAL_MVC.Models.UsuarioAmigo>
+
+@{
+    ViewData["Title"] = "Amigos";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+   
+
+<div class="container">
+
+   <div class="row">
+      <div class="col-md-12">
+         <div id="content" class="content content-full-width">
+            <!-- begin profile -->
+            <div class="profile">
+               <div class="profile-header">
+                  <!-- BEGIN profile-header-cover -->
+                  <div class="profile-header-cover"></div>
+                  <!-- END profile-header-cover -->
+                  <!-- BEGIN profile-header-content -->
+                  <div class="profile-header-content">
+                     <!-- BEGIN profile-header-img -->
+                     <div class="profile-header-img">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                     </div>
+                     <!-- END profile-header-img -->
+                     <!-- BEGIN profile-header-info -->
+                     <div class="profile-header-info">
+                        <h4 class="m-t-10 m-b-5">Sean Ngu</h4>
+                       
+                    
+                     </div>
+                     <!-- END profile-header-info -->
+                  </div>
+                  <!-- END profile-header-content -->
+                  <!-- BEGIN profile-header-tab -->
+                  <ul class="profile-header-tab nav nav-tabs">
+                     <li class="nav-item" align-items="center"> Amigos
+                  <!-- END profile-header-tab -->
+               </div>
+            </div>
+            <!-- end profile -->
+            <!-- begin profile-content -->
+            <div class="profile-content">
+               <!-- begin tab-content -->
+               <div class="tab-content p-0">
+                  <!-- begin #profile-friends tab -->
+                        <!--Buscar Amigos a Agregar -->
+                     @*   @if (ViewBag.UsuarioAgregado!=null) {
+                            <input type="text" class="btn btn-success" name="mailAmigo" value="Usuario agregado satisfactoriamente">
+                        }
+*@
+                        <form asp-controller="UsuarioComun" asp-action="AgregarAmigo">
+                            <input type="text" class="form-control" name="mailAmigo" value="Ingrese el E-mail de su amigo">
+
+
+                            <input type="submit" value="Agregar" name="mailAmigo" />
+                        </form>
+
+                        <div class="tab-pane fade in active show" id="profile-friends">
+
+
+
+                            <h4 class="m-t-0 m-b-20">Friend List (@ViewBag.AmigosCount)</h4>
+
+
+                            <!-- begin row -->
+
+                            <div class="row row-space-2">
+                                <!-- begin col-6 -->
+                                <div class="col-md-6 m-b-2">
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="p-10 bg-white">
+                                            <div class="media media-xs overflow-visible">
+                                                <a class="media-left" href="javascript:;">
+                                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="media-object img-circle">
+                                                </a>
+                                                <div class="media-body valign-middle">
+                                                    <b class="text-inverse"> @Html.DisplayFor(modelItem => item.Amigo.Nombre)</b>
+                                                </div>
+                                                <div class="media-body valign-middle text-right overflow-visible">
+                                                    <form asp-action="DeleteAmigo">
+                                                        <input type="hidden" id="id" name="IdAmigo" value="@item.ID_Amigo">
+                                                        <input type="submit" value="Eliminar amigo" class="btn btn-primary" asp-action="DeleteAmigo" asp-controller="UsuarioComun" asp-route-id="@item.Amigo.ID" />
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                        </div>
+                        <!-- end col-6 -->
+                        <!-- begin col-6 -->
+                        <!-- end col-6 -->
+                        <!-- begin col-6 -->
+                     
+                        <!-- end col-6 -->
+                     </div>
+                     <!-- end row -->
+                  </div>
+                  <!-- end #profile-friends tab -->
+                   <input type="button" class="btn btn-secondary" value="Volver al inicio" onclick="@("window.location.href='" + @Url.Action("InicioUsuario", "UsuarioComun") + "'");" />
+               </div>
+               <!-- end tab-content -->
+            </div>
+            <!-- end profile-content -->
+         </div>
+      </div>
+   </div>
+</div>

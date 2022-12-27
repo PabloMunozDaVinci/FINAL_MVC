@@ -136,7 +136,7 @@ namespace FINAL_MVC.Data
                     usuario.Property(u => u.Nombre).HasColumnType("varchar(50)");
                     usuario.Property(u => u.Apellido).HasColumnType("varchar(50)");
                     usuario.Property(u => u.Mail).HasColumnType("varchar(50)");
-                    usuario.Property(u => u.Password).HasColumnType("varchar(50)");
+                    usuario.Property(u => u.Password).HasColumnType("varchar(MAX)");
                     usuario.Property(u => u.EsAdmin).HasColumnType("bit");
                     usuario.Property(u => u.Bloqueado).HasColumnType("bit");
                     usuario.Property(u => u.Intentos).HasColumnType("int");
