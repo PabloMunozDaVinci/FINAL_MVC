@@ -12,6 +12,15 @@
 <section class="">
 
     <!-- Buscar -->
+    <form asp-action="BusquedaPorFecha" >
+        <div class="d-flex flex-row justify-content-end col-4">
+        <input asp-controller="UsuarioComun" asp-action="BusquedaPorFecha" name="date" class="form-control" type="date" id="date" value="">
+        <input type="submit" value="Buscar Por Fecha" class="btn btn-primary" />
+        </div>
+    </form>
+    <!-- Fin Buscar -->
+    <br />
+    <!-- Buscar -->
     <form asp-action="BuscarContenido" class="float-right row">
         <div class="d-flex flex-row justify-content-end col-4">
             <input asp-controller="UsuarioComun" asp-action="BuscarContenido"  class="form-control" name="BusquedaContenido" />
@@ -71,6 +80,7 @@
                                     <input asp-controller="UsuarioComun" asp-action="Comentar" class="form-control" name="comentarioContenido" />
                                     <input type="submit" value="Comentar" class="btn btn-primary" />
                                     </form>
+                                    <br />
                                     <!-- Reacciones -->
                                     <form asp-action="Reaccionar">
                                      

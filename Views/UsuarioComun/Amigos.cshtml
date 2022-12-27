@@ -52,12 +52,15 @@
                <div class="tab-content p-0">
                   <!-- begin #profile-friends tab -->
                         <!--Buscar Amigos a Agregar -->
-                     @*   @if (ViewBag.UsuarioAgregado!=null) {
-                            <input type="text" class="btn btn-success" name="mailAmigo" value="Usuario agregado satisfactoriamente">
+                       @if (ViewBag.UsuarioAgregado != null) {
+                           <div class="alert alert-success" role="alert">
+                            @ViewBag.UsuarioAgregado
+                            </div>
+                            @*<input type="text" class="btn btn-success" name="mailAmigo" value="Usuario agregado satisfactoriamente">*@
                         }
-*@
+
                         <form asp-controller="UsuarioComun" asp-action="AgregarAmigo">
-                            <input type="text" class="form-control" name="mailAmigo" value="Ingrese el E-mail de su amigo">
+                            <input type="text" class="form-control" name="mailAmigo" >
 
 
                             <input type="submit" value="Agregar" name="mailAmigo" />
