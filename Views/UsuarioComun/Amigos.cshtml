@@ -86,18 +86,10 @@
                                                     <b class="text-inverse"> @Html.DisplayFor(modelItem => item.Amigo.Nombre)</b>
                                                 </div>
                                                 <div class="media-body valign-middle text-right overflow-visible">
-
-
                                                     <form asp-action="DeleteAmigo">
+                                                        <input type="hidden" id="id" name="IdAmigo" value="@item.ID_Amigo">
                                                         <input type="submit" value="Eliminar amigo" class="btn btn-primary" asp-action="DeleteAmigo" asp-controller="UsuarioComun" asp-route-id="@item.Amigo.ID" />
                                                     </form>
-
-
-
-
-
-
-
                                                 </div>
                                             </div>
                                         </div>

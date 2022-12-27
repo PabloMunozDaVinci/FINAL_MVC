@@ -39,8 +39,9 @@
                
             </div>
              @if (ViewContext.HttpContext.Session.GetString("Usuario") != null || (ViewContext.HttpContext.Session.GetString("UsuarioLogueadoAdmin") != null ) ) {
-                <input type="button" class="btn btn-primary" value="Inicio" onclick="@("window.location.href='" + @Url.Action("InicioUsuario", "UsuarioComun") + "'");" />
-                <input type="button" class="btn btn-primary" value="Mis Amigos" onclick="@("window.location.href='" + @Url.Action("Amigos", "UsuarioComun") + "'");" />
+
+                <input type="button" class="btn btn-primary" value="Inicio" onclick="@("window.location.href='" + @Url.Action("InicioUsuario", "UsuarioComun") + "'");" /> 
+                <input type="button" class="btn btn-primary" value="Mis Amigos" onclick="@("window.location.href='" + @Url.Action("Amigos", "UsuarioComun") + "'");" /> 
                 <input type="button" class="btn btn-primary" value="Perfil" onclick="@("window.location.href='" + @Url.Action("Perfil", "UsuarioComun") + "'");" />
                 <input onclick="@("window.location.href='" + @Url.Action("Logoff", "Admin") + "'");" type="button" value="Cerrar Sesion " class="btn btn-light" />
             }

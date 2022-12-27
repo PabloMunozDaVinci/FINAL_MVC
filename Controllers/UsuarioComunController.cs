@@ -15,38 +15,10 @@ namespace FINAL_MVC.Controllers
         public UsuarioComunController(Context context)
         {
             _context = context;
-            inicializarAtributos();
         }
         public IActionResult Index()
         {
             return View();
-        }
-
-        private void inicializarAtributos()
-        {
-            try
-            {
-
-                //_context.Comentarios.Include(c => c.Usuario)
-                //    .Include(c => c.Post)
-                //    .Load();
-
-                //_context.Tags.Include(t => t.TagPost)
-                //    .Include(t => t.Posts)
-                //    .Load();
-
-                //_context.Reacciones.Include(r => r.Usuario)
-                //    .Include(r => r.Post)
-                //    .Load();
-
-                //Guardo los cambios 
-                //_context.SaveChanges();
-
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
         public async Task<IActionResult> InicioUsuario()
@@ -127,7 +99,10 @@ namespace FINAL_MVC.Controllers
 
             Usuario usuario = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
 
-
+            _context.Usuarios.Include(u => u.MisPosts)
+               .Include(u => u.MisAmigos)
+               .Include(u => u.AmigosMios)
+               .Load();
             foreach (Usuario a in _context.Usuarios)
             {
                 if (a.Mail.Equals(mailAmigo))
@@ -135,7 +110,9 @@ namespace FINAL_MVC.Controllers
                     UsuarioAmigo am1 = new UsuarioAmigo(usuario, a);
                     UsuarioAmigo am2 = new UsuarioAmigo(a, usuario);
                     usuario.MisAmigos.Add(am1);
+                    _context.SaveChangesAsync();
                     usuario.AmigosMios.Add(am2);
+                    _context.SaveChangesAsync();
                     salida = true;
                     ViewBag.UsuarioAgregado = "Usuario agregado correctamente";
                 }
@@ -163,6 +140,39 @@ namespace FINAL_MVC.Controllers
             //var context = _context.Usuarios.Include(u => u.AmigosMios);
             Usuario usuario = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
             return View(usuario.MisAmigos.ToList());
+        }
+
+        [HttpPost, ActionName("DeleteAmigo")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAmigo(int IdAmigo)
+        {
+            int usuarioIdInt = Int32.Parse(HttpContext.Session.GetString("Usuario"));
+            if (usuarioIdInt == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            _context.Usuarios.Include(u => u.MisPosts)
+               .Include(u => u.MisAmigos)
+               .Include(u => u.AmigosMios)
+               .Load();
+
+            var usuario = await _context.Usuarios.FindAsync(usuarioIdInt);
+            var UsuarioAmigo = await _context.Usuarios.FindAsync(IdAmigo);
+
+            // Buscamos al usuario en la lista de amigos del usuario actual
+            UsuarioAmigo usuarioMisAmigos = usuario.MisAmigos.FirstOrDefault(u => u.ID_Amigo == UsuarioAmigo.ID);
+            UsuarioAmigo usuarioAmigosMios = usuario.AmigosMios.FirstOrDefault(u => u.ID_Amigo == usuarioIdInt);
+
+            // Si encontramos al usuario en la lista de amigos, lo eliminamos
+            if (usuarioMisAmigos != null && usuarioAmigosMios != null)
+            {
+                usuario.MisAmigos.Remove(usuarioMisAmigos);
+                _context.SaveChangesAsync();
+                usuario.AmigosMios.Remove(usuarioAmigosMios);
+                _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Amigos));
         }
 
         public async Task<IActionResult> Perfil()
@@ -225,8 +235,6 @@ namespace FINAL_MVC.Controllers
 
             return View("Perfil", "UsuarioComun");
         }
-
-
 
         [HttpPost, ActionName("EliminarMiUsuario")]
         [ValidateAntiForgeryToken]
@@ -339,6 +347,49 @@ namespace FINAL_MVC.Controllers
                     .Include(p => p.Tags);
                     return View("InicioUsuario", await context.ToListAsync());
                 }
+                else
+                    return View("InicioUsuario", "UsuarioComun");
+            }
+            catch (Exception e)
+            {
+                return View("InicioUsuario", "UsuarioComun");
+            }
+        }
+
+        [HttpPost, ActionName("Tags")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Tags(string palabra, int postId)
+        {
+            try
+            {
+                DateTime now = DateTime.Now;
+                string usuarioIdString = HttpContext.Session.GetString("Usuario").ToString();
+                Usuario usuariolog = _context.Usuarios.AsNoTracking().FirstOrDefault(m => m.ID == Int32.Parse(usuarioIdString));
+                int usuarioId = Int32.Parse(HttpContext.Session.GetString("Usuario"));
+                if (usuariolog != null)
+                {
+                    Tag tag = new Tag { Palabra = palabra };
+
+                    // Agrega el objeto Tag a la base de datos y guarda los cambios
+                    _context.Tags.Add(tag);
+                    await _context.SaveChangesAsync();
+
+                    // Establece la propiedad ID_Tag del objeto TagPost con la clave principal del objeto Tag recién creado
+                    TagPost tagPost = new TagPost { ID_Tag = tag.ID, ID_Post = postId, UltimaActualizacion = now };
+
+                    // Agrega el objeto TagPost a la base de datos y guarda los cambios
+                    _context.Add(tagPost);
+                    await _context.SaveChangesAsync();
+
+                    // Carga los posts desde la base de datos y los incluye en la vista
+                    await _context.SaveChangesAsync();
+                    var context = _context.Posts.Include(p => p.Usuario)
+                    .Include(p => p.Comentarios)
+                    .Include(p => p.Reacciones)
+                    .Include(p => p.Tags);
+                    return View("InicioUsuario", await context.ToListAsync());
+                }
+
                 else
                     return View("InicioUsuario", "UsuarioComun");
             }
