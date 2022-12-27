@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FINAL_MVC.Data;
 using FINAL_MVC.Models;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace FINAL_MVC.Controllers
 {
@@ -76,6 +77,7 @@ namespace FINAL_MVC.Controllers
             }
             if (ModelState.IsValid)
             {
+                usuario.Password = BCryptNet.HashPassword(usuario.Password);
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -123,6 +125,7 @@ namespace FINAL_MVC.Controllers
             {
                 try
                 {
+                    usuario.Password = BCryptNet.HashPassword(usuario.Password);
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }

@@ -72,20 +72,29 @@
                                     <input type="submit" value="Comentar" class="btn btn-primary" />
                                     </form>
                                     <!-- Reacciones -->
-                                    
                                     <form asp-action="Reaccionar">
                                      
                                     <input type="hidden" id="id" name="postID" value="@item.ID">
                                     <input type="submit" value="Reaccionar" class="btn btn-primary" />
-                                    @*@foreach (var reacciones in item.Reacciones)
-                                    {}*@
                                      <p>
                                         Reacciones: @item.Reacciones.Count()
                                     </p>
                                     </form>
-
                                     <!-- Fin reacciones -->
-
+                                    <!-- tags -->
+                                    <form asp-action="Tags">
+                                    <input type="hidden" id="id" name="postId" value="@item.ID">
+                                    <input asp-controller="UsuarioComun" asp-action="Tags" class="form-control" name="Palabra" />
+                                    <input type="submit" value="Agregar Tag" class="btn btn-primary" />
+                                    <p>tags:</p>
+                                    @foreach (var tags in item.Tags)
+                                    {
+                                     <p>
+                                        @tags.Palabra
+                                    </p>
+                                    }
+                                    </form>
+                                    <!-- Fin tags -->
                                     <!-- Comentarios -->
                                     <div class="container">
                                         <div class="row">
