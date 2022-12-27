@@ -77,7 +77,7 @@ namespace FINAL_MVC.Controllers
                 await _context.SaveChangesAsync();
 
                 ViewBag.Error = "Usuario y/o contraseña incorrectos";
-                return View();
+                return RedirectToAction("Index", "Home");
             }
 
             usuario.Intentos = 0;
