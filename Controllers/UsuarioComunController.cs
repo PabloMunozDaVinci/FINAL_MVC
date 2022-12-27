@@ -74,6 +74,52 @@ namespace FINAL_MVC.Controllers
             return View(post);
         }
 
+        public async Task<IActionResult> BuscarContenido(string BusquedaContenido, string orden)
+        {
+            var usuarioId = HttpContext.Session.GetString("Usuario");
+            if (usuarioId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            _context.Comentarios.Include(c => c.Usuario)
+               .Include(c => c.Post)
+               .Load();
+
+            var context = _context.Posts
+                .Include(p => p.Usuario)
+                .Include(p => p.Comentarios)
+                .Include(p => p.Reacciones)
+                .Include(p => p.Tags);
+
+            var post = await context.ToListAsync();
+            var posts = context.Where(p => p.Contenido.ToLower().Contains(BusquedaContenido.ToLower()));
+
+            //filtro por contenido
+            if (!String.IsNullOrEmpty(BusquedaContenido))
+            {
+                //List<Post> PostsContenido = posts.AsEnumerable().ToList();
+                post = await posts.ToListAsync();
+            }
+
+            switch (orden)
+            {
+                case "nombreasc":
+                    post = (List<Post>)post.OrderBy(p => p.Contenido);
+                    break;
+                case "nombredesc":
+                    post = (List<Post>)post.OrderByDescending(p => p.Contenido);
+                    break;
+            }
+
+            //var post = await context.ToListAsync();
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View("InicioUsuario", post);
+        }
+
         public async Task<IActionResult> AgregarAmigo(string mailAmigo)
         {
             bool salida = false;
@@ -262,6 +308,37 @@ namespace FINAL_MVC.Controllers
                     return View("InicioUsuario", await context.ToListAsync());
                 }
                 
+                else
+                    return View("InicioUsuario", "UsuarioComun");
+            }
+            catch (Exception e)
+            {
+                return View("InicioUsuario", "UsuarioComun");
+            }
+        }
+
+        [HttpPost, ActionName("Reaccionar")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Reaccionar(int postID)
+        {
+            try
+            {
+                string usuarioIdString = HttpContext.Session.GetString("Usuario").ToString();
+                Usuario usuariolog = _context.Usuarios.AsNoTracking().FirstOrDefault(m => m.ID == Int32.Parse(usuarioIdString));
+                int usuarioId = Int32.Parse(HttpContext.Session.GetString("Usuario"));
+
+                if (usuariolog != null)
+                {
+                    Reaccion Reaccion = new Reaccion {Tipo = '1', PostID = postID, UsuarioID = usuarioId};
+                    _context.Reacciones.Add(Reaccion);
+                    usuariolog.MisReacciones.Add(Reaccion);
+                    await _context.SaveChangesAsync();
+                    var context = _context.Posts.Include(p => p.Usuario)
+                    .Include(p => p.Comentarios)
+                    .Include(p => p.Reacciones)
+                    .Include(p => p.Tags);
+                    return View("InicioUsuario", await context.ToListAsync());
+                }
                 else
                     return View("InicioUsuario", "UsuarioComun");
             }
