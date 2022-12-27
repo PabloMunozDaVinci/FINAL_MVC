@@ -6,17 +6,16 @@
 @{
     ViewData["Title"] = "InicioUsuario";
     int usuarioId = int.Parse(HttpContextAccessor.HttpContext.Session.GetString("Usuario"));
-    //var amigos = _context.Amigos.Where(a => a.UsuarioID == usuarioId).Select(a => a.AmigoID);
-    //var resultado = context.Model.Where(i => i.UsuarioID == usuarioId || amigos.Contains(i.UsuarioID)).ToList();
+    
 }
 
 <section class="">
 
     <!-- Buscar -->
-    <form asp-action="Buscar" class="float-right row">
+    <form asp-action="BuscarContenido" class="float-right row">
         <div class="d-flex flex-row justify-content-end col-4">
-            <input type="text" class="form-control" name="Buscar" />
-            <input type="submit" value="Buscar" class="btn btn-primary" />
+            <input asp-controller="UsuarioComun" asp-action="BuscarContenido"  class="form-control" name="BusquedaContenido" />
+            <input type="submit" value="Buscar Contenido" class="btn btn-primary" />
         </div>
     </form>
     <!-- Fin Buscar -->
@@ -72,6 +71,21 @@
                                     <input asp-controller="UsuarioComun" asp-action="Comentar" class="form-control" name="comentarioContenido" />
                                     <input type="submit" value="Comentar" class="btn btn-primary" />
                                     </form>
+                                    <!-- Reacciones -->
+                                    
+                                    <form asp-action="Reaccionar">
+                                     
+                                    <input type="hidden" id="id" name="postID" value="@item.ID">
+                                    <input type="submit" value="Reaccionar" class="btn btn-primary" />
+                                    @*@foreach (var reacciones in item.Reacciones)
+                                    {}*@
+                                     <p>
+                                        Reacciones: @item.Reacciones.Count()
+                                    </p>
+                                    </form>
+
+                                    <!-- Fin reacciones -->
+
                                     <!-- Comentarios -->
                                     <div class="container">
                                         <div class="row">
