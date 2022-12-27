@@ -43,7 +43,7 @@ namespace FINAL_MVC.Controllers
             else
             {
                 // Si no hay usuario en la sesión, redirige al inicio de sesión
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Index", "Home");
             }
         }
 

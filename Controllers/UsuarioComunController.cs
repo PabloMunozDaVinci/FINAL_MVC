@@ -69,26 +69,33 @@ namespace FINAL_MVC.Controllers
             //filtro por contenido
             if (!String.IsNullOrEmpty(BusquedaContenido))
             {
-                //List<Post> PostsContenido = posts.AsEnumerable().ToList();
                 post = await posts.ToListAsync();
             }
-
-            switch (orden)
-            {
-                case "nombreasc":
-                    post = (List<Post>)post.OrderBy(p => p.Contenido);
-                    break;
-                case "nombredesc":
-                    post = (List<Post>)post.OrderByDescending(p => p.Contenido);
-                    break;
-            }
-
-            //var post = await context.ToListAsync();
             if (post == null)
             {
                 return NotFound();
             }
+            return View("InicioUsuario", post);
+        }
 
+        public async Task<IActionResult> BusquedaPorFecha(DateTime date)
+        {
+            var context = _context.Posts
+                 .Include(p => p.Usuario)
+                 .Include(p => p.Comentarios)
+                 .Include(p => p.Reacciones)
+                 .Include(p => p.Tags);
+
+
+            var post = await context.ToListAsync();
+
+            var postsPorFecha = context
+                  .Where(p => p.Fecha.Date == date.Date);
+
+            if (date != null)
+            {
+                post = await postsPorFecha.ToListAsync();
+            }
             return View("InicioUsuario", post);
         }
 
@@ -99,8 +106,7 @@ namespace FINAL_MVC.Controllers
 
             Usuario usuario = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
 
-            _context.Usuarios.Include(u => u.MisPosts)
-               .Include(u => u.MisAmigos)
+            _context.Usuarios.Include(u => u.MisAmigos)
                .Include(u => u.AmigosMios)
                .Load();
             foreach (Usuario a in _context.Usuarios)
@@ -110,19 +116,19 @@ namespace FINAL_MVC.Controllers
                     UsuarioAmigo am1 = new UsuarioAmigo(usuario, a);
                     UsuarioAmigo am2 = new UsuarioAmigo(a, usuario);
                     usuario.MisAmigos.Add(am1);
-                    _context.SaveChangesAsync();
                     usuario.AmigosMios.Add(am2);
-                    _context.SaveChangesAsync();
+                    a.MisAmigos.Add(am2);
+                    a.AmigosMios.Add(am1);
                     salida = true;
                     ViewBag.UsuarioAgregado = "Usuario agregado correctamente";
                 }
             }
             if (salida)
             {
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Amigos));
             }
-            // modificar esto 
+
             return RedirectToAction(nameof(Amigos));
         }
 
@@ -139,6 +145,7 @@ namespace FINAL_MVC.Controllers
             string usuarioId = HttpContext.Session.GetString("Usuario").ToString();
             //var context = _context.Usuarios.Include(u => u.AmigosMios);
             Usuario usuario = _context.Usuarios.FirstOrDefault(m => m.ID == Int32.Parse(usuarioId));
+            ViewBag.AmigosCount = usuario.MisAmigos.Count();
             return View(usuario.MisAmigos.ToList());
         }
 
@@ -167,9 +174,8 @@ namespace FINAL_MVC.Controllers
             if (usuarioMisAmigos != null && usuarioAmigosMios != null)
             {
                 usuario.MisAmigos.Remove(usuarioMisAmigos);
-                _context.SaveChangesAsync();
-                usuario.AmigosMios.Remove(usuarioAmigosMios);
-                _context.SaveChangesAsync();
+                UsuarioAmigo.MisAmigos.Remove(usuarioAmigosMios);
+                _context.SaveChanges();
             }
 
             return RedirectToAction(nameof(Amigos));
