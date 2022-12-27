@@ -74,7 +74,7 @@ namespace FINAL_MVC.Controllers
             return View(post);
         }
 
-        public async Task<IActionResult> BuscarContenido(string BusquedaContenido, string orden)
+        public async Task<IActionResult> BuscarContenido(string BusquedaContenido, string UsuarioBuscado)
         {
             var usuarioId = HttpContext.Session.GetString("Usuario");
             if (usuarioId == null)
@@ -91,9 +91,15 @@ namespace FINAL_MVC.Controllers
                 .Include(p => p.Reacciones)
                 .Include(p => p.Tags);
 
+            var contextUsuario = _context.Usuarios.Include(u => u.MisPosts);
+
             var post = await context.ToListAsync();
             var posts = context.Where(p => p.Contenido.ToLower().Contains(BusquedaContenido.ToLower()));
 
+
+            var usuario = await contextUsuario.ToListAsync();
+            var usuarios = contextUsuario.Where(p => p.Nombre.ToLower().Contains(UsuarioBuscado.ToLower()));
+            
             //filtro por contenido
             if (!String.IsNullOrEmpty(BusquedaContenido))
             {
@@ -101,14 +107,10 @@ namespace FINAL_MVC.Controllers
                 post = await posts.ToListAsync();
             }
 
-            switch (orden)
+            if (!String.IsNullOrEmpty(UsuarioBuscado))
             {
-                case "nombreasc":
-                    post = (List<Post>)post.OrderBy(p => p.Contenido);
-                    break;
-                case "nombredesc":
-                    post = (List<Post>)post.OrderByDescending(p => p.Contenido);
-                    break;
+                //List<Post> PostsContenido = posts.AsEnumerable().ToList();
+                usuario = await usuarios.ToListAsync();
             }
 
             //var post = await context.ToListAsync();
@@ -119,6 +121,25 @@ namespace FINAL_MVC.Controllers
 
             return View("InicioUsuario", post);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public async Task<IActionResult> AgregarAmigo(string mailAmigo)
         {

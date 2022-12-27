@@ -10,7 +10,15 @@
 }
 
 <section class="">
-
+   
+    <!-- Buscar -->
+    <form asp-action="BuscarContenido" class="float-right row">
+        <div class="d-flex flex-row justify-content-end col-4">
+            <input asp-controller="UsuarioComun" asp-action="BuscarContenido"  class="form-control" name="UsuarioBuscado" />
+            <input type="submit" value="Buscar Usuario" class="btn btn-primary" />
+        </div>
+    </form>
+    <!-- Fin Buscar -->
     <!-- Buscar -->
     <form asp-action="BuscarContenido" class="float-right row">
         <div class="d-flex flex-row justify-content-end col-4">
@@ -19,7 +27,6 @@
         </div>
     </form>
     <!-- Fin Buscar -->
-
     <!-- Postear -->
     <form asp-action="Postear">
         <div class="container">
@@ -44,7 +51,7 @@
                 <h2 class="page-header">Posts</h2>
                 <section class="comment-list">
              
-                    @foreach (var item in Model.Where(i => i.UsuarioID == usuarioId)) {
+                    @foreach (var item in Model@*.Where(i => i.UsuarioID == usuarioId)*@) {
                     
                         <!-- Primer Post -->
                     <article class="row">
